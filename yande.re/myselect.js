@@ -1,4 +1,4 @@
-function myselect(id, md5) {
+function myselect(id) {
     var pitem = document.getElementById("p" + id);
     var cb = pitem.firstElementChild.firstElementChild;
     cb.checked = !cb.checked;
@@ -8,7 +8,6 @@ function myselect(id, md5) {
         pitem.classList.remove('imgItemChecked');
     }
     UpdateBatchCount();
-
 }
 
 function $$(id) {
@@ -56,19 +55,17 @@ function UpdateBatchCount() {
         }
     });
     batchCount = checked;
-    console.log(batchCount);
 
     var ButtonSelectAll = document.getElementById('ButtonSelectAll');
-    console.log(ButtonSelectAll);
     if (checked > 1) {
         if (ButtonSelectAll) {
-            ButtonSelectAll.innerHTML = "DeselectAll  " + batchCount;
+            ButtonSelectAll.innerHTML = "DeselectAll  " + batchCount + " items";
             ButtonSelectAll.onclick = DeselectAll;
         }
     }
     else {
         if (ButtonSelectAll) {
-            ButtonSelectAll.innerHTML = "SelectAll  " + batchCount;
+            ButtonSelectAll.innerHTML = "SelectAll  " + batchCount + " items";
             ButtonSelectAll.onclick = SelectAll;
         }
     }
