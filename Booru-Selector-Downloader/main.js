@@ -53,7 +53,7 @@
     var HeadEl = document.getElementsByTagName('head').item(0);
     var ScriptEl = document.createElement("script");
     ScriptEl.type = "text/javascript";
-    ScriptEl.src = "https://beats0.github.io/scripter/yande.re/myselect.js";
+    ScriptEl.src = "https://beats0.github.io/scripter/Booru-Selector-Downloader/myselect.js";
     HeadEl.appendChild(ScriptEl);
 
 })();
