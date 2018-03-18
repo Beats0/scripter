@@ -1,10 +1,15 @@
 // ==UserScript==
-// @name         yande.re img selector
+// @name         Booru-Selector-Downloader
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  yande.re img selector,consolog which you want and download the pictures on Node.js
+// @description  selector the pictures, consolog which you want and download the pictures on Node.js
 // @author       Beats0
 // @match        https://yande.re/*
+// @match        http://konachan.com/*
+// @include     *://yande.re/*
+// @include     *://konachan.com/*
+// @include     *://konachan.net/*
+// @include     *://konachan.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -42,7 +47,6 @@
         var head = document.getElementsByTagName('head')[0];
         head.appendChild(style);
     }
-
     loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover { border: 1px solid #97c0e3; } .imgItemChecked { border: 1px solid #97c0e3; }');
 
     // myselect.js

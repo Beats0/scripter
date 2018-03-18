@@ -40,7 +40,6 @@ function DeselectAll() {
         checkbox.checked = false;
         checkbox.parentNode.parentNode.classList.remove('imgItemChecked');
     });
-
     UpdateBatchCount();
     return false;
 }
