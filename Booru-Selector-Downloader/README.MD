@@ -11,7 +11,7 @@ It works for [yande.re](https://yande.re/) and [konachan](https://konachan.com/)
 
 4. click the ` download ` button to download the pictures online
 
-### or by node
+#### or by node
 same as point ① ②
 
 3.open your browser console, click the ` logJson ` button, it will console the json array
