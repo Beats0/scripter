@@ -14,7 +14,19 @@ function $$(id) {
     return !id ? null : document.querySelectorAll(id);
 }
 
-function download() {
+function logJson() {
+    var pUrls = [];
+    var re = /\d\w+/;
+    var re2 = /([a-fA-F0-9]{32})/;
+    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+        pUrls.push({"id": id, "md5": md5});
+    }
+    console.log(JSON.stringify(pUrls));
+}
+
+function downloadF() {
     var pUrls = [];
     var re = /\d\w+/;
     var re2 = /([a-fA-F0-9]{32})/;
@@ -80,6 +92,28 @@ function downloadURI(uri, name) {
     document.body.removeChild(link);
     delete link;
 }
+
+/*
+   * @yande.re
+   *            - sample   {string}     - download post version for .jpg(defaults)
+   *            var img_src = 'https://files.yande.re/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
+   *
+   *            - larger   {string}     - download larger version for .jpg
+   *            var img_src = 'https://files.yande.re/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
+   *
+   *            - original  {string}    - download original version for .png
+   *            var img_src = 'https://files.yande.re/image/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
+   *
+   * @konachan
+   *            - sample   {string}     - download post version for .jpg(defaults)
+   *            var img_src = 'https://konachan.com/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
+   *
+   *            - larger   {string}     - download larger version for .jpg
+   *            var img_src = 'https://konachan.com/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
+   *
+   *            - original  {string}    - download original version for .png
+   *            var img_src = 'https://konachan.com/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
+   * */
 
 function downloadImg(pUrls) {
     for (var i = 0; i < pUrls.length; ++i) {

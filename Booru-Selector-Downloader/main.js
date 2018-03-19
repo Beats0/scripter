@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Booru-Selector-Downloader
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  selector the pictures, consolog which you want and download the pictures on Node.js
+// @version      1.0
+// @description  selector the pictures, consolog which you want and download the pictures online or use Node.js
 // @author       Beats0
 // @match        https://yande.re/*
 // @match        http://konachan.com/*
@@ -18,7 +18,7 @@
     var main_menu = document.getElementById("main-menu");
     var confBord = document.createElement('li');
     confBord.setAttribute('class', 'static');
-    confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">DownloadAll</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson()</a></li> </ul>';
+    confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson</a></li></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="downloadF()">Download</a></li> </ul>';
     main_menu.firstElementChild.appendChild(confBord);
     var posts = document.getElementById('post-list-posts');
     var postsItems = posts.querySelectorAll('li');
