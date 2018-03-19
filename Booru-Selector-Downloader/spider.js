@@ -19,10 +19,7 @@ if (!fs.existsSync(dir)) {
    *            var img_src = 'https://files.yande.re/image/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
    *
    * @konachan
-   *            - sample   {string}     - download post version for .jpg(defaults)
-   *            var img_src = 'https://konachan.com/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
-   *
-   *            - larger   {string}     - download larger version for .jpg
+   *            - image   {string}     - download larger version for .jpg
    *            var img_src = 'https://konachan.com/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
    *
    *            - original  {string}    - download original version for .png

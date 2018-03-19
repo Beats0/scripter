@@ -26,7 +26,7 @@ function logJson() {
     console.log(JSON.stringify(pUrls));
 }
 
-function downloadF() {
+function downloadYandeSample() {
     var pUrls = [];
     var re = /\d\w+/;
     var re2 = /([a-fA-F0-9]{32})/;
@@ -35,8 +35,55 @@ function downloadF() {
         var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
         pUrls.push({"id": id, "md5": md5});
     }
-    console.log(JSON.stringify(pUrls));
-    downloadImg(pUrls);
+    downloadImg('https://files.yande.re/sample/', pUrls, '.jpg');
+}
+
+function downloadYandeLarger() {
+    var pUrls = [];
+    var re = /\d\w+/;
+    var re2 = /([a-fA-F0-9]{32})/;
+    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+        pUrls.push({"id": id, "md5": md5});
+    }
+    downloadImg('https://files.yande.re/jpeg/', pUrls, '.jpg');
+}
+
+function downloadYandeOriginal() {
+    var pUrls = [];
+    var re = /\d\w+/;
+    var re2 = /([a-fA-F0-9]{32})/;
+    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+        pUrls.push({"id": id, "md5": md5});
+    }
+    downloadImg('https://files.yande.re/image/', pUrls, '.png');
+}
+
+function downloadKonachanImage() {
+    var pUrls = [];
+    var re = /\d\w+/;
+    var re2 = /([a-fA-F0-9]{32})/;
+    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+        pUrls.push({"id": id, "md5": md5});
+    }
+    downloadImg('https://konachan.com/jpeg/', pUrls, '.jpg');
+}
+
+function downloadKonachanOriginal() {
+    var pUrls = [];
+    var re = /\d\w+/;
+    var re2 = /([a-fA-F0-9]{32})/;
+    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+        pUrls.push({"id": id, "md5": md5});
+    }
+    downloadImg('https://konachan.com/', pUrls, '.png');
 }
 
 function SelectAll() {
@@ -93,32 +140,10 @@ function downloadURI(uri, name) {
     delete link;
 }
 
-/*
-   * @yande.re
-   *            - sample   {string}     - download post version for .jpg(defaults)
-   *            var img_src = 'https://files.yande.re/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
-   *
-   *            - larger   {string}     - download larger version for .jpg
-   *            var img_src = 'https://files.yande.re/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
-   *
-   *            - original  {string}    - download original version for .png
-   *            var img_src = 'https://files.yande.re/image/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
-   *
-   * @konachan
-   *            - sample   {string}     - download post version for .jpg(defaults)
-   *            var img_src = 'https://konachan.com/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
-   *
-   *            - larger   {string}     - download larger version for .jpg
-   *            var img_src = 'https://konachan.com/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
-   *
-   *            - original  {string}    - download original version for .png
-   *            var img_src = 'https://konachan.com/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
-   * */
-
-function downloadImg(pUrls) {
+function downloadImg(hostUrl, pUrls, fileName) {
     for (var i = 0; i < pUrls.length; ++i) {
         var img_filename = pUrls[i].id + '.jpg';
-        var img_src = 'https://files.yande.re/sample/' + pUrls[i].md5 + '/' + pUrls[i].id + '.jpg';
+        var img_src = hostUrl + pUrls[i].md5 + '/' + pUrls[i].id + fileName;
         downloadURI(img_src, img_filename);
     }
 }
