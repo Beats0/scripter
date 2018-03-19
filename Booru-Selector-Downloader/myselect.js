@@ -14,7 +14,7 @@ function $$(id) {
     return !id ? null : document.querySelectorAll(id);
 }
 
-function logJson() {
+function download() {
     var pUrls = [];
     var re = /\d\w+/;
     var re2 = /([a-fA-F0-9]{32})/;
@@ -23,7 +23,8 @@ function logJson() {
         var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
         pUrls.push({"id": id, "md5": md5});
     }
-    console.log(JSON.stringify(pUrls))
+    console.log(JSON.stringify(pUrls));
+    downloadImg(pUrls);
 }
 
 function SelectAll() {
@@ -67,5 +68,23 @@ function UpdateBatchCount() {
             ButtonSelectAll.innerHTML = "SelectAll  " + batchCount + " items";
             ButtonSelectAll.onclick = SelectAll;
         }
+    }
+}
+
+function downloadURI(uri, name) {
+    var link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    delete link;
+}
+
+function downloadImg(pUrls) {
+    for (var i = 0; i < pUrls.length; ++i) {
+        var img_filename = pUrls[i].id + '.jpg';
+        var img_src = 'https://files.yande.re/sample/' + pUrls[i].md5 + '/' + pUrls[i].id + '.jpg';
+        downloadURI(img_src, img_filename);
     }
 }
