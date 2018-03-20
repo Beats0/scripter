@@ -159,7 +159,7 @@ function downloadImg(hostUrl, pUrls, fileName) {
 function downloadDanbooruImg(hostUrl,pUrls,fileName) {
     for (var i = 0; i < pUrls.length; i++) {
         var img_filename = pUrls[i].id + '.jpg';
-        var img_src = hostUrl + pUrls[i].md5 + '/' + fileName;
+        var img_src = hostUrl + pUrls[i].md5 + fileName;
         downloadURI(img_src, img_filename);
     }
 }
