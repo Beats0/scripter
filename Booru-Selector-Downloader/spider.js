@@ -24,12 +24,20 @@ if (!fs.existsSync(dir)) {
    *
    *            - original  {string}    - download original version for .png
    *            var img_src = 'https://konachan.com/' + pJson[i].md5 + '/' + pJson[i].id + '.png';
+   *
+   *
+   * @danbooru
+   *            - original {string}
+   *            var img_src = 'http://danbooru.donmai.us/data/' + pJson[i].md5 + '.jpg';
+   *
    * */
 
 for (var i = 0; i < pJson.length; i++) {
     var img_filename = pJson[i].id + '.jpg';
+
     // select picture website and version
     var img_src = 'https://files.yande.re/sample/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
+
     console.log('download: ' + img_src);
     download(img_src, dir, img_filename)
 }

@@ -10,81 +10,90 @@ function myselect(id) {
     UpdateBatchCount();
 }
 
+function Danboorumyselect(id) {
+    var pitem = document.getElementById('post_'+id);
+    var cb = pitem.firstElementChild.firstElementChild;
+    cb.checked = !cb.checked;
+    if (cb.checked) {
+        pitem.classList.add('imgItemChecked');
+    } else {
+        pitem.classList.remove('imgItemChecked');
+    }
+    UpdateBatchCount();
+}
 function $$(id) {
     return !id ? null : document.querySelectorAll(id);
 }
 
-function logJson() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
+var pUrls = [];
+
+function pJson() {
+    try {
+        pUrls = [];
+        var re = /\d\w+/;
+        var re2 = /([a-fA-F0-9]{32})/;
+        for (var i = 0; i < $$('.imgItemChecked').length; i++) {
+            var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
+            var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+            pUrls.push({"id": id, "md5": md5});
+        }
+        return pUrls;
+    } catch (e) {
+        console.error(e)
     }
+}
+function DanboorupJson() {
+    try {
+        pUrls = [];
+        var posts = document.getElementById('posts');
+        var postsItems = posts.querySelectorAll('.imgItemChecked');
+        for (var i = 0; i < postsItems.length; i++) {
+            var id = postsItems[i].dataset.id;
+            var md5 = postsItems[i].dataset.md5;
+            pUrls.push({"id": id, "md5": md5});
+        }
+        return pUrls;
+    } catch (e) {
+        console.error(e)
+    }
+}
+function logDanbooruJson() {
+    DanboorupJson();
     console.log(JSON.stringify(pUrls));
 }
 
-function downloadYandeSample() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
-    }
-    downloadImg('https://files.yande.re/sample/', pUrls, '.jpg');
+function logJson() {
+    pJson();
+    console.log(JSON.stringify(pUrls));
 }
 
-function downloadYandeLarger() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
+var Yande = {
+    sample: function () {
+        downloadImg('https://files.yande.re/sample/', pUrls, '.jpg');
+    },
+    larger: function () {
+        downloadImg('https://files.yande.re/jpeg/', pUrls, '.jpg');
+    },
+    original: function () {
+        downloadImg('https://files.yande.re/image/', pUrls, '.png');
     }
-    downloadImg('https://files.yande.re/jpeg/', pUrls, '.jpg');
-}
+};
+Yande.sample();
 
-function downloadYandeOriginal() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
+var Konachan = {
+    image: function () {
+        downloadImg('https://konachan.com/jpeg/', pUrls, '.jpg')
+    },
+    original: function () {
+        downloadImg('https://konachan.com/', pUrls, '.png');
     }
-    downloadImg('https://files.yande.re/image/', pUrls, '.png');
-}
+};
 
-function downloadKonachanImage() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
+var Danbooru = {
+    original: function () {
+        downloadDanbooruImg('http://danbooru.donmai.us/data/', pUrls, '.jpg');
     }
-    downloadImg('https://konachan.com/jpeg/', pUrls, '.jpg');
-}
-
-function downloadKonachanOriginal() {
-    var pUrls = [];
-    var re = /\d\w+/;
-    var re2 = /([a-fA-F0-9]{32})/;
-    for (var i = 0; i < $$('.imgItemChecked').length; i++) {
-        var id = (re.exec($$('.imgItemChecked')[i].attributes.onclick.nodeValue)[0]);
-        var md5 = (re2.exec($$('.imgItemChecked')[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-        pUrls.push({"id": id, "md5": md5});
-    }
-    downloadImg('https://konachan.com/', pUrls, '.png');
-}
+};
 
 function SelectAll() {
     $$('.checkbox').forEach(function (checkbox) {
@@ -116,7 +125,7 @@ function UpdateBatchCount() {
     batchCount = checked;
 
     var ButtonSelectAll = document.getElementById('ButtonSelectAll');
-    if (checked > 1) {
+    if (checked >= 1) {
         if (ButtonSelectAll) {
             ButtonSelectAll.innerHTML = "DeselectAll  " + batchCount + " items";
             ButtonSelectAll.onclick = DeselectAll;
@@ -141,9 +150,16 @@ function downloadURI(uri, name) {
 }
 
 function downloadImg(hostUrl, pUrls, fileName) {
-    for (var i = 0; i < pUrls.length; ++i) {
+    for (var i = 0; i < pUrls.length; i++) {
         var img_filename = pUrls[i].id + '.jpg';
         var img_src = hostUrl + pUrls[i].md5 + '/' + pUrls[i].id + fileName;
+        downloadURI(img_src, img_filename);
+    }
+}
+function downloadDanbooruImg(hostUrl,pUrls,fileName) {
+    for (var i = 0; i < pUrls.length; i++) {
+        var img_filename = pUrls[i].id + '.jpg';
+        var img_src = hostUrl + pUrls[i].md5 + '/' + fileName;
         downloadURI(img_src, img_filename);
     }
 }
