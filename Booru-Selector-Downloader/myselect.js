@@ -82,10 +82,11 @@ Yande.sample();
 
 var Konachan = {
     image: function () {
-        downloadImg('https://konachan.com/jpeg/', pUrls, '.jpg')
+        downloadImg('https://konachan.com/jpeg/', pUrls, '.jpg');
+        downloadImg('https://konachan.com/image/', pUrls, '.jpg');
     },
     original: function () {
-        downloadImg('https://konachan.com/', pUrls, '.png');
+        downloadImg('https://konachan.com/image/', pUrls, '.png');
     }
 };
 
