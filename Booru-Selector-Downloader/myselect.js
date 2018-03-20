@@ -92,6 +92,7 @@ var Konachan = {
 var Danbooru = {
     original: function () {
         downloadDanbooruImg('http://danbooru.donmai.us/data/', pUrls, '.jpg');
+        downloadDanbooruImg('http://danbooru.donmai.us/data/', pUrls, '.png');
     }
 };
 

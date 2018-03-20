@@ -27,9 +27,11 @@ if (!fs.existsSync(dir)) {
    *
    *
    * @danbooru
-   *            - original {string}
+   *            - original {string}      - download larger version for .jpg
    *            var img_src = 'http://danbooru.donmai.us/data/' + pJson[i].md5 + '.jpg';
    *
+   *            - original {string}      - download larger version for .png
+   *            var img_src = 'http://danbooru.donmai.us/data/' + pJson[i].md5 + '.png';
    * */
 
 for (var i = 0; i < pJson.length; i++) {

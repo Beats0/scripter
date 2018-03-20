@@ -79,7 +79,7 @@
         var main_menu = document.getElementById('nav');
         var confBord = document.createElement('li');
         confBord.setAttribute('class', 'static');
-        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson()">logJson</a></li></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson();Danbooru.original()">download danbooru original</a></li></ul>';
+        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson()">logJson</a></li></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson();Danbooru.original()">download original(for jpg and png)</a></li></ul>';
         main_menu.firstElementChild.appendChild(confBord);
         var posts = document.getElementById('posts');
         var postsItems = posts.querySelectorAll('article');
