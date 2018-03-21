@@ -20,7 +20,6 @@ if (!fs.existsSync(dir)) {
    *
    * @konachan
    *            - image   {string}     - download larger version for .jpg
-   *            var img_src = 'https://konachan.com/jpeg/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
    *            var img_src = 'https://konachan.com/image/' + pJson[i].md5 + '/' + pJson[i].id + '.jpg';
    *
    *            - original  {string}    - download original version for .png
