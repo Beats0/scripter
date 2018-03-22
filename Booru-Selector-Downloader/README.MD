@@ -2,14 +2,14 @@
 It works for [yande.re](https://yande.re/) , [konachan](https://konachan.com/) and [danbooru](http://danbooru.donmai.us/)
 
 ### usage:
-#### online
+#### download online
 1. copy the ` main.js ` to the  [tampermonkey](http://tampermonkey.net/) script,
 
 2. visit the booru website, select the picture which you want
 
 3. click the ` download ` button to download the pictures online
 
-#### or by node
+#### download by node
 same as point ① ②
 
 3.open your browser console, click the ` logJson ` button, it will console the json array
