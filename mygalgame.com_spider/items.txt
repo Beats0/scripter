@@ -401,139 +401,139 @@ title：箱庭的学园
 
  title：千恋＊万花
  date：2017-11-12
- addr：https://pan.baidu.com/s/1i6Bij8D
+ addr：pan.baidu.com/s/1i6Bij8D
  pwd：A574
  url： https://www.mygalgame.com/qianlianwanhua.html
 
  title：心跳~心跳~文学部！
  date：2017-11-05
- addr：https://pan.baidu.com/s/1pMhjKCj
+ addr：pan.baidu.com/s/1pMhjKCj
  pwd：A573
  url： https://www.mygalgame.com/xintiaoxintiaowenxuebu.html
 
  title：古风萝莉之病娇默示录
  date：2017-11-05
- addr：https://pan.baidu.com/s/1mjyQMus
+ addr：pan.baidu.com/s/1mjyQMus
  pwd：A572
  url： https://www.mygalgame.com/gufengluolizhibingjiaomoshilu.html
 
  title：妹嫁 ～妹妹新娘～
  date：2017-11-05
- addr：https://pan.baidu.com/s/1eTqV394
+ addr：pan.baidu.com/s/1eTqV394
  pwd：A571
  url： https://www.mygalgame.com/meijia-meimeixinniang.html
 
  title：月影的幻影 -解放之羽-
  date：2017-10-31
- addr：https://pan.baidu.com/s/1dGHvWpb
+ addr：pan.baidu.com/s/1dGHvWpb
  pwd：A570
  url： https://www.mygalgame.com/yueyingdehuanying-jiefangzhiyu.html
 
  title：朝霞之歌
  date：2017-10-31
- addr：https://pan.baidu.com/s/1eTR3sSM
+ addr：pan.baidu.com/s/1eTR3sSM
  pwd：A569
  url： https://www.mygalgame.com/chaoxiazhige.html
 
  title：Rewrite+
  date：2017-10-28
- addr：https://pan.baidu.com/s/1qZll2sk
+ addr：pan.baidu.com/s/1qZll2sk
  pwd：A568
  url： https://www.mygalgame.com/rewrite-2.html
 
  title：游魂2 -you’re the only one- 
  date：2017-10-28 
- addr：https://pan.baidu.com/s/1hueq0du 
+ addr：pan.baidu.com/s/1hueq0du
  pwd：A567 
  url： https://www.mygalgame.com/youhun2-youre-the-only-one.html 
 
  title：游魂 -It’s happy days- 
  date：2017-10-28 
- addr：https://pan.baidu.com/s/1smMxjQX 
+ addr：pan.baidu.com/s/1smMxjQX
  pwd：A566 
  url： https://www.mygalgame.com/youhun-its-happy-days.html 
 
  title：时钟机关的Ley-line -朝雾中飘零之花- 
  date：2017-10-27 
- addr：https://pan.baidu.com/s/1kWJR8eb 
+ addr：pan.baidu.com/s/1kWJR8eb
  pwd：A565 
  url： https://www.mygalgame.com/shizhongjiguandeley-line-chaowuzhongpiaolingzhihua.html 
 
  title：时钟机关的Ley-line -残影之夜将明时- 
  date：2017-10-27 
- addr：https://pan.baidu.com/s/1eTCAmHG 
+ addr：pan.baidu.com/s/1eTCAmHG
  pwd：A564 
  url： https://www.mygalgame.com/shizhongjiguandeley-line-canyingzhiyejiangmingshi.html 
 
  title：斩魔大圣 
  date：2017-10-26 
- addr：https://pan.baidu.com/s/1kXkVTor 
+ addr：pan.baidu.com/s/1kXkVTor
  pwd：A563 
  url： https://www.mygalgame.com/zhanmodasheng.html 
 
  title：花咲workspring！ 
  date：2017-08-19 
- addr：https://pan.baidu.com/s/1i5ZUzrf 
+ addr：pan.baidu.com/s/1i5ZUzrf
  pwd：A562 
  url： https://www.mygalgame.com/huaworkspring.html 
 
  title：近月少女的礼仪2 
  date：2017-08-12 
- addr：https://pan.baidu.com/s/1qZtYUBy 
+ addr：pan.baidu.com/s/1qZtYUBy
  pwd：A561 
  url： https://www.mygalgame.com/jinyueshaonvdeliyi2.html 
 
  title：罪之光Rendezvous 
  date：2017-08-07 
- addr：https://pan.baidu.com/s/1o958tT4 
+ addr：pan.baidu.com/s/1o958tT4
  pwd：A560 
  url： https://www.mygalgame.com/zuizhiguangrendezvous.html
 
  title：美少女万华镜 -罪与罚的少女- 
  date：2017-08-05 
- addr：https://pan.baidu.com/s/1dGzLbRN 
+ addr：pan.baidu.com/s/1dGzLbRN
  pwd：A559 
  url： https://www.mygalgame.com/meishaonvwanhuajing.html 
 
  title：ISLAND 
  date：2017-08-04 
- addr：https://pan.baidu.com/s/1ggGBUgz 
+ addr：pan.baidu.com/s/1ggGBUgz
  pwd：A558 
  url： https://www.mygalgame.com/island.html 
 
  title：少女理论及其周边 -Ecole de Paris- 
  date：2016-09-17 
- addr：window.open('https://www.mygalgame.com/go.php?url=https://pan.baidu.com/s/1bqKNOn1 
+ addr：pan.baidu.com/s/1bqKNOn1
  pwd：A557 
  url： https://www.mygalgame.com/shaonvlilunjiqizhoubian-ecole-de-paris.html 
 
  title：FLOWERS 夏篇 
  date：2016-09-17 
- addr：window.open('https://www.mygalgame.com/go.php?url=https://pan.baidu.com/s/1kXmrO5x 
+ addr：pan.baidu.com/s/1kXmrO5x
  pwd：A556 
  url： https://www.mygalgame.com/flowers-xiapian.html 
 
  title：大番长－Big Bang Age－ 
  date：2016-09-17 
- addr：window.open('https://www.mygalgame.com/go.php?url=https://pan.baidu.com/s/1c2WaQmW 
+ addr：pan.baidu.com/s/1c2WaQmW
  pwd：A555 
  url： https://www.mygalgame.com/dafanchangbig-bang-age.html 
 
  title：同级生Original版 
  date：2016-09-17 
- addr：window.open('https://www.mygalgame.com/go.php?url=https://pan.baidu.com/s/1nwwMSbv 
+ addr：pan.baidu.com/s/1nwwMSbv
  pwd：A554 
  url： https://www.mygalgame.com/tongjishengoriginalban.html 
 
  title：被黑暗洗礼的天使 
  date：2016-09-05 
- addr：window.open('https://www.mygalgame.com/go.php?url=https://pan.baidu.com/s/1i7gWnS5 
+ addr：pan.baidu.com/s/1i7gWnS5
  pwd：A553 
  url： https://www.mygalgame.com/beiheianxilidetianshi.html 
 
  title：紫电～环之羁绊～ 
  date：2016-09-04 
- addr：window.open('www.mygalgame.com/go.php?url=pan.baidu.com/s/1ghaUFGR ')
+ addr：pan.baidu.com/s/1ghaUFGR
  pwd：A552 
  url： https://www.mygalgame.com/zidianhuanzhijiban.html 
 
