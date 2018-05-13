@@ -15,5 +15,5 @@
 #### [proxy](https://github.com/Beats0/scripter/tree/master/proxy)
  - proxy相关
 
-#### [InteliJ_IDEA_plugin](https://github.com/Beats0/scripter/tree/master/InteliJ_IDEA_plugin)
- - InteliJ IDEA plugin and settings backup
+#### [IntelliJ_IDEA_plugin](https://github.com/Beats0/scripter/tree/master/IntelliJ_IDEA_plugin)
+ - IntelliJ IDEA plugin and settings backup

@@ -1,10 +1,10 @@
-## InteliJ_IDEA_plugin
+## IntelliJ_IDEA_plugin
 
 ### my setting
 
  - webstorm
  
- [webstorm_settings.jar](https://github.com/Beats0/scripter/blob/master/InteliJ_IDEA_plugin/mySettings)
+ [webstorm_settings.jar](https://github.com/Beats0/scripter/blob/master/IntelliJ_IDEA_plugin/mySettings)
 
  ![webstorm](https://ws1.sinaimg.cn/large/006nOlwNgy1fr9hsa46fuj31hc0swwi9.jpg)
 
@@ -12,7 +12,7 @@
 
  - pycharm
 
-[pycharm_MyLightSettings.jar](https://github.com/Beats0/scripter/blob/master/InteliJ_IDEA_plugin/mySettings)
+[pycharm_MyLightSettings.jar](https://github.com/Beats0/scripter/blob/master/IntelliJ_IDEA_plugin/mySettings)
 
 ![pycharm](https://ws1.sinaimg.cn/large/006nOlwNgy1fr9indlkyoj31hc0syqv5.jpg)
 
