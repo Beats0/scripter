@@ -43,7 +43,9 @@ driver = webdriver.Firefox(firefox_profile)     #创建driver
 # driver.set_page_load_timeout(20)          ##设置超时时间
 
 '''
- 	@func get_html {String} requests
+    requests处理
+ 	@param {String}
+    @return {Object}
 '''
 def get_html(url):
     try:
@@ -53,7 +55,9 @@ def get_html(url):
         return " ERROR "
 
 '''
- 	@func get_url {String} BeautifulSoup 返回page中的urls
+    BeautifulSoup处理 返回page中的urls
+ 	@param {String}
+    @return {Array}
 '''
 def get_url(url):
     urls = []
@@ -73,7 +77,9 @@ def get_url(url):
     return urls
 
 '''
- 	@func check {String} 处理get_url()函数返回空数组
+    处理get_url()函数返回值为空数组的情况
+ 	@param {String}
+    @return {Array}
 '''
 def check(page_url):
     while (1):
@@ -87,7 +93,9 @@ def check(page_url):
             break
 
 '''
- 	@func getInfor {String} 主函数 用于提取资源 最后返回items数组
+    主函数 用于提取资源 最后返回items数组
+ 	@param {String}
+    @return {Array}
 '''
 def getInfor(url):
     driver.get(url)
@@ -142,7 +150,8 @@ def getInfor(url):
             return items
 
 '''
- 	@func processor {String} 处理函数
+    处理函数
+ 	@param {String}
 '''
 def processor(page_url):
     print("\nstart page>>>>>>>>>>>>>>>>>>" + page_url + "<<<<<<<<<<<<<<<<<<<<<<<")
@@ -157,7 +166,8 @@ def processor(page_url):
             Out2File(items)
 
 '''
- 	@func processorField {String} 单独处理因网络问题而导致爬取失败的url
+    单独处理因网络问题而导致爬取失败的url,完成后直接写入
+ 	@param {String}
 '''
 def processorField(url):
     print("re processor >>> "+url)
@@ -168,7 +178,8 @@ def processorField(url):
         Out2File(items)
 
 '''
- 	@func Out2File {String} 写入到items.txt
+    写入到items.txt
+ 	@param {String}
 '''
 def Out2File(dict):
     with open('items.txt', 'a+',encoding='utf-8') as f:
