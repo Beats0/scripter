@@ -42,11 +42,7 @@ driver = webdriver.Firefox(firefox_profile)     #创建driver
 # driver.implicitly_wait(20)                ##设置超时时间
 # driver.set_page_load_timeout(20)          ##设置超时时间
 
-'''
-    requests处理
- 	@param {String}
-    @return {Object}
-'''
+# requests处理
 def get_html(url):
     try:
         r = requests.get(url)
@@ -54,11 +50,7 @@ def get_html(url):
     except:
         return " ERROR "
 
-'''
-    BeautifulSoup处理 返回page中的urls
- 	@param {String}
-    @return {Array}
-'''
+# BeautifulSoup处理 返回page中的urls,最要是为了提高提取速度
 def get_url(url):
     urls = []
     html = get_html(url)
@@ -76,11 +68,7 @@ def get_url(url):
             ...
     return urls
 
-'''
-    处理get_url()函数返回值为空数组的情况
- 	@param {String}
-    @return {Array}
-'''
+# 处理get_url()函数返回值为空数组的情况
 def check(page_url):
     while (1):
         flag = False
@@ -92,11 +80,7 @@ def check(page_url):
         if flag == True:
             break
 
-'''
-    主函数 用于提取资源 最后返回items数组
- 	@param {String}
-    @return {Array}
-'''
+# 主函数 用于提取资源 最后返回items数组
 def getInfor(url):
     driver.get(url)
     start_time = time.time()
@@ -149,10 +133,7 @@ def getInfor(url):
             processorField(url)
             return items
 
-'''
-    处理函数
- 	@param {String}
-'''
+# 处理函数
 def processor(page_url):
     print("\nstart page>>>>>>>>>>>>>>>>>>" + page_url + "<<<<<<<<<<<<<<<<<<<<<<<")
     urls = check(page_url)
@@ -165,10 +146,8 @@ def processor(page_url):
         if items is not None:
             Out2File(items)
 
-'''
-    单独处理因网络问题而导致爬取失败的url,完成后直接写入
- 	@param {String}
-'''
+
+# 单独处理因网络问题而导致爬取失败的url,完成后直接写入
 def processorField(url):
     print("re processor >>> "+url)
     items = getInfor(url)
@@ -177,15 +156,19 @@ def processorField(url):
     if items is not None:
         Out2File(items)
 
-'''
-    写入到items.txt
- 	@param {String}
-'''
+# 写入到items.txt
 def Out2File(dict):
     with open('items.txt', 'a+',encoding='utf-8') as f:
         for item in dict: f.write(' title：{} \n date：{} \n addr：{} \n pwd：{} \n url： {} \n\n'.format(item['title'],item['date'],item['addr'], item['pwd'],item['url']))
 
+# 查看百度云链接是否失效
+# def checkAlive(list):
+#     for url in list:
+#        urls = []
+#     html = get_html(url)
+#     soup = BeautifulSoup(html, 'lxml')
 
+# 开始爬取
 # page_urls = []
 page_urls = ["https://www.mygalgame.com/"]
 # 设置爬虫页数(ip封锁时设置proxy)
