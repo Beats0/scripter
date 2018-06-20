@@ -38,8 +38,9 @@ npm run spider
 
 > item 商品表
 
-名 | 类型 | 长度 | 小数 | not null | primary key| 备注
-- | :-: | :-: | :-: | -: | -:| -: |
+
+名 | 类型 | 长度 | 小数 | not null | primary key| 备注 |
+-----|-----|-----|-----|----------|------------|-----|
 item_id	    |bigint	        |  20	    | 0	  | ✔    | key1   | Key 商品id
 title	    |varchar	    |  255	    | 0   | ✔    |    | 商品名
 userId	    |int	        |  15	    | 0   | ✔    |    | 店铺id
@@ -62,8 +63,9 @@ REPLACE INTO `item` VALUES (item_id, title, userId, nick, price, originalPrice, 
 
 > user 用户表
 
-名 | 类型 | 长度 | 小数 | not null |  primary key | 备注
-- | :-: | :-: | :-: | -: | -:| -: |  
+
+名 | 类型 | 长度 | 小数 | not null |  primary key | 备注|
+-----|-----|-----|-----|----------|------------|-----|
 userId	    |bigint	        |15 	|0	    |✔     |  key1 | Key 用户id(实际为rateId)
 nick	    |varchar	    |20	    |0	    |✔     |        | 名字
 avatar	    |varchar	    |255	|0	    |        |      | 头像(图片参数&width=40&height=40)
@@ -73,10 +75,13 @@ sql
 REPLACE INTO `user` VALUES (userId, nick, avatar);
 ```
 
+--------------------------------------------------------------
+
 > rate 评价表
 
-名 | 类型 | 长度 | 小数 | not null | primary key| 备注
-- | :-: | :-: | :-: | -: |  -: | -: |  
+
+名 | 类型 | 长度 | 小数 | not null | primary key| 备注|
+-----|-----|-----|-----|----------|------------|-----|
 itemId	        |bigint	       |15	    | 0	    |✔	    |      |商品id
 rateId	        |bigint	       |15	    | 0	    |✔      | key1   |交易id(用户id)
 rateDate	    |bigint	       |13	    | 0	    |✔      |      |评价时间
