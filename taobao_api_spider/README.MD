@@ -32,7 +32,6 @@ cd
 npm install
 npm run spider
 ```
-有时候爬取报错不影响数据,原因为axios爬取时的网络问题
 
 #### 表结构
 

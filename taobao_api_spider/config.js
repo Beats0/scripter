@@ -8,7 +8,7 @@ module.exports = {
     },
     query: {
         q: 'bilibili',
-        maxPage: 2,
+        maxPage: 5,
         maxRatePage: 3
     }
 }
