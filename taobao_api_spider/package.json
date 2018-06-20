@@ -1,0 +1,12 @@
+{
+  "name": "taobao_api_spider",
+  "version": "0.0.1",
+  "author": "Beats0",
+  "scripts": {
+    "spider": "node ./spider.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "mysql": "^2.15.0"
+  }
+}

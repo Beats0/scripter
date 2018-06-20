@@ -4,9 +4,19 @@
 __pycache__/
 *.py[cod]
 *$py.class
+venv/
 
 # C extensions
 *.so
 
 # vsc
 .vscode
+
+#idea
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/
+.idea/workspace.xml
+
+# node
+taobao_api_spider/node_modules/

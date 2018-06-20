@@ -11,6 +11,9 @@
 #### [mygalgame.com_spider](https://github.com/Beats0/scripter/tree/master/mygalgame.com_spider)
  - mygalgame.com爬虫
 
+ #### [taobao_api_spider](https://github.com/Beats0/scripter/tree/master/taobao_api_spider)
+ - taobao_api_spider爬虫存储数据库
+
 ### 工具
 #### [proxy](https://github.com/Beats0/scripter/tree/master/proxy)
  - proxy相关
