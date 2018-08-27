@@ -105,7 +105,7 @@
         head.appendChild(style);
     }
 
-    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover { border: 1px solid #97c0e3; } .imgItemChecked { border: 1px solid #97c0e3; } article.post-preview { float:none;}');
+    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover, .imgItem:focus { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-colo; } .imgItemChecked { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-colo; } article.post-preview { float:none;}');
 
     // myselect.js
     var HeadEl = document.getElementsByTagName('head').item(0);
