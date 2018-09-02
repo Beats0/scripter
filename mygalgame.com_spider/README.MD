@@ -1,6 +1,13 @@
-## 使用python selenium爬取mygalgame.com
+## mygal spider
 
-#### 环境:
+### for node
+```js
+npm i puppeteer
+node .\mygal_spider.js
+```
+爬虫结果在 `mygal_spider.txt` 中
+
+### for pytho:
  - python 3.6
 
 #### 依赖:

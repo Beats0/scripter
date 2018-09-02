@@ -1,6 +1,8 @@
 ## Booru-Selector-Downloader
 It works for [yande.re](https://yande.re/) , [konachan](https://konachan.com/) and [danbooru](http://danbooru.donmai.us/)
 
+### [greasyfork install](https://greasyfork.org/zh-CN/scripts/371605-booru-selector-downloader)
+
 ### usage:
 #### download online
 1. copy the ` main.js ` to the  [tampermonkey](http://tampermonkey.net/) script,
