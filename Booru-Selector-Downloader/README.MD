@@ -9,7 +9,11 @@ It works for [yande.re](https://yande.re/) , [konachan](https://konachan.com/) a
 press key to charge
 
 'A': previous page
+
 'D': next page
+
 'Z': download sample image
+
 'X': download larger image
+
 'C': change image favorite status
