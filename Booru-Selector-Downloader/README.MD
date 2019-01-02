@@ -16,4 +16,6 @@ press key to charge
 
 'X': download larger image
 
+'S': download original image(only in single image page)
+
 'C': change image favorite status

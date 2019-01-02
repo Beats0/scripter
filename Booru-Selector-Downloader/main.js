@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Booru-Selector-Downloader
 // @namespace    http://tampermonkey.net/
-// @version      3.0
+// @version      3.1
 // @description  selector the pictures, consolog which you want and download the pictures online or use Node.js
 // @author       Beats0
 // @match          *://yande.re/post*
@@ -187,18 +187,35 @@
     var pageRight = document.querySelector('#paginator > div > a.next_page')
     var pageLeft = document.querySelector('#paginator > div > a.previous_page')
 
+    // in single page
+    var image = document.getElementById('image')
+    var largerImage = document.getElementById('highres-show')
+    var highres = document.getElementById('highres')
+
     function GMhandler(e) {
         // sample
         if (e.key === 'z') {
+            if (image) {
+                GMDownload(image.src, image.src.match(re2)[0])
+                return
+            }
             flag = true
             logJson()
             downloadSample()
         }
         // larger
         if (e.key === 'x') {
+            if (largerImage) {
+                GMDownload(largerImage.href, largerImage.href.match(re2)[0])
+                return
+            }
             flag = true
             logJson()
             downloadLarger()
+        }
+        // original
+        if (e.key === 's' && highres) {
+            GMDownload(highres.href, highres.href.match(re2)[0])
         }
         // change fav
         if (e.key === 'c' && removeFav && addFav) {
