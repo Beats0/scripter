@@ -1,0 +1,208 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+body {
+    background: #1b2838;
+    text-align: left;
+    color: #8F98A0;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin-bottom: .4rem;
+    font-size: 1.2rem;
+    line-height: inherit;
+    color: inherit;
+    white-space: normal;
+}
+
+legend > span {
+    color: #ffffff;
+    text-decoration: underline;
+}
+legend > span:hover {
+    color: #007bff;
+    cursor: pointer;
+    background-color: transparent;
+}
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        width: 750px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        width: 970px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        width: 1170px;
+    }
+}
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    overflow: hidden;
+}
+.btn {
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
+    -moz-appearance: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-appearance: none;
+    -webkit-user-select: none;
+    appearance: none;
+    background-position: -1px -1px;
+    background-repeat: repeat-x;
+    background-size: 110% 110%;
+    border: 1px solid rgba(27,31,35,.2);
+    border-radius: .25em;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 20px;
+    padding: 0 10px;
+    position: relative;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn.hover, .btn:hover {
+    background-color: #e6ebf1;
+    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
+    background-position: -.5em;
+    border-color: rgba(27,31,35,.35);
+}
+.btn:hover {
+    background-repeat: repeat-x;
+    text-decoration: none;
+}
+.btn-primary {
+    background-color: #28a745;
+    background-image: linear-gradient(-180deg,#34d058,#28a745 90%);
+    color: #fff;
+}
+.btn-primary.hover, .btn-primary:hover {
+    background-color: #269f42;
+    background-image: linear-gradient(-180deg,#2fcb53,#269f42 90%);
+    background-position: -.5em;
+    border-color: rgba(27,31,35,.5);
+}
+.pics {
+    width: calc(100% / 5 - 10px);
+    float: left;
+    margin: 1px 1px;
+    height: 135px;
+    position: relative;
+}
+
+.pics:hover, .pics:focus {
+    outline: 1px solid Highlight;
+    outline: 1px auto -webkit-focus-ring-colo;
+}
+
+input[type="checkbox" i] {
+    margin: 3px 3px 3px 4px;
+}
+
+a, .whiteLink {
+    color: #ebebeb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+a.hoverunderline:hover {
+    text-decoration: underline;
+}
+
+a.underlinedLink, span.underlinedLink {
+    color: #ebebeb;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a.whiteLink:hover, .whiteLink:hover, a.linkStandard:hover, a.linkTitle:hover, a.underlinedLink:hover, span.underlinedLink:hover {
+    color: #66C0F4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.page-container {
+    padding: 5px 0;
+    clear: both;
+}
+
+.page-info {
+    display: inline;
+}
+
+.pagingPageLinks {
+    float: right;
+    margin-right: 0;
+    padding-top: 2px;
+    font-size: 12px;
+    color: #959595;
+}
+
+.pagingCurrentPage {
+    padding: 0 3px;
+    background-color: #c9c9c9;
+    color: #262627;
+}
+
+.pagingArrowImg {
+    padding: 0 5px 1px 5px;
+}
+
+a.pagingPageLink, a.pagingPageLink:hover, a.pagingPageLink:visited, a.pagingPageLink:active {
+    font-size: 12px;
+    text-decoration: none;
+    color: #c9c9c9;
+    padding: 0 3px;
+}
+
+.imgWallItem {
+    display: block;
+    border: 1px solid black;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
+    overflow: hidden;
+}

@@ -1,0 +1,159 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>yande.re_db</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+
+<div id="app" class="container" v-cloak>
+    <div class="row">
+        <div class="pic-type">
+            <legend>
+                <span @click="handleShowPublic">Public</span>
+                <span @click="handleShowR">R</span>
+            </legend>
+        </div>
+        <div class="page-container">changeType
+            <div class="page-info">
+                Current: {{ 50 * (page -1) + 1 }} ~ {{ 50 * page }} &nbsp;&nbsp; Total: {{ allPics.length }}
+                <button type="button" class="btn">select all 1/10 &nbsp;&nbsp;</button>
+                <button @click="handleSave" type="button" class="btn">save info</button>
+                <button id="download" type="button" class="btn btn-primary">
+                    <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         p-id="3700">
+                        <path d="M624 706.3h-74.1V464c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v242.3H400c-6.7 0-10.4 7.7-6.3 12.9l112 141.7c3.2 4.1 9.4 4.1 12.6 0l112-141.7c4.1-5.2 0.4-12.9-6.3-12.9z"
+                              p-id="3701"></path>
+                        <path d="M811.4 366.7C765.6 245.9 648.9 160 512.2 160S258.8 245.8 213 366.6C127.3 389.1 64 467.2 64 560c0 110.5 89.5 200 199.9 200H304c4.4 0 8-3.6 8-8v-60c0-4.4-3.6-8-8-8h-40.1c-33.7 0-65.4-13.4-89-37.7-23.5-24.2-36-56.8-34.9-90.6 0.9-26.4 9.9-51.2 26.2-72.1 16.7-21.3 40.1-36.8 66.1-43.7l37.9-9.9 13.9-36.6c8.6-22.8 20.6-44.1 35.7-63.4 14.9-19.2 32.6-35.9 52.4-49.9 41.1-28.9 89.5-44.2 140-44.2s98.9 15.3 140 44.2c19.9 14 37.5 30.8 52.4 49.9 15.1 19.3 27.1 40.7 35.7 63.4l13.8 36.5 37.8 10C846.1 454.5 884 503.8 884 560c0 33.1-12.9 64.3-36.3 87.7-23.4 23.4-54.5 36.3-87.6 36.3H720c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h40.1C870.5 760 960 670.5 960 560c0-92.7-63.1-170.7-148.6-193.3z"></path>
+                    </svg>&nbsp;&nbsp; download
+                </button>
+            </div>
+            {{ checkedArr }}
+            <div class="pagingPageLinks" style="float:right; padding-bottom: 5px;">
+                <a href="#">
+                    <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         p-id="7805">
+                        <path d="M689 165.1L308.2 493.5c-10.9 9.4-10.9 27.5 0 37L689 858.9c14.2 12.2 35 1.2 35-18.5V183.6c0-19.7-20.8-30.7-35-18.5z"></path>
+                    </svg>
+                </a>&nbsp;
+                <a class="pagingPageLink">1</a>&nbsp;...&nbsp;
+                <a class="pagingPageLink">18</a>&nbsp;&nbsp;
+                <a class="pagingPageLink">19</a>&nbsp;&nbsp;
+                <span class="pagingCurrentPage">20</span>&nbsp;&nbsp;
+                <a class="pagingPageLink">21</a>&nbsp;&nbsp;
+                <a class="pagingPageLink">22</a>&nbsp;...&nbsp;
+                <a class="pagingPageLink">74</a>&nbsp;
+                <a href="#">
+                    <svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         p-id="7794">
+                        <path d="M715.8 493.5L335 165.1c-14.2-12.2-35-1.2-35 18.5v656.8c0 19.7 20.8 30.7 35 18.5l380.8-328.4c10.9-9.4 10.9-27.6 0-37z"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="pic-container">
+            <div v-for="(item, index) of pics" :key="index" class="pics" @click="handleCheck(index)">
+                <div :style="{ 'background-image': 'url(https://steamuserimages-a.akamaihd.net/ugc/' + item +')'}"
+                     class="imgWallItem">
+                    <div style="position: relative;">
+                        <input type="checkbox" :checked="isChecked(index)" style="position: absolute;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://vuejs.org/js/vue.js"></script>
+<script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script>
+    window.onload = function () {
+        var app = new Vue({
+            el: '#app',
+            data: {
+                page: 1,
+                pages: 1,
+                currentPage: 1,
+                showR: false,
+                allPics: [],
+                pics: [],
+                checkedArr: [],
+                // isCheckedAll: false
+            },
+            created() {
+                this.fetchData()
+            },
+            methods: {
+                fetchData() {
+                    let picType = ''
+                    picType = this.showR ? './r.json' : './public.json'
+                    axios.get(picType).then(res => {
+                        this.page = 1
+                        this.pages = Math.ceil(res.data.pics.length % 50)
+                        this.allPics = res.data.pics
+                        this.pics = res.data.pics.slice(0, 50)
+                    })
+                },
+                handleShowPublic() {
+                    if (!this.showR) return
+                    this.showR = false
+                    this.checkedArr = []
+                    this.fetchData()
+                },
+                handleShowR() {
+                    if (this.showR) return
+                    this.showR = true
+                    this.checkedArr = []
+                    this.fetchData()
+                },
+                handleCheck(index) {
+                    if (this.checkedArr.includes(index)) {
+                        this.checkedArr = this.checkedArr.filter(item => item !== index).sort()
+                    } else {
+                        this.checkedArr = Array.from(new Set([...this.checkedArr, index])).sort()
+                    }
+                },
+                handleSave() {
+                    let dbArr = []
+                    const pics = this.pics
+                    // dbArr = this.checkedArr.filter((item, index) => {
+                    //    
+                    // })
+                    this.checkedArr.map((item, index) => {
+                        dbArr.push(pics[item])
+                    })
+                    console.log(dbArr)
+                    localStorage.setItem('yande.re_db', JSON.stringify(dbArr))
+                },
+                isChecked(index) {
+                    return this.checkedArr.includes(index)
+                }
+                // selectAll
+            },
+            computed: {
+                // selectAll: {
+                //     get: function () {
+                //         return this.isChecked ? this.selected.length == this.users.length : false;
+                //     },
+                //     set: function (value) {
+                //         var selected = [];
+                //         if (value) {
+                //             this.users.forEach(function (user) {
+                //                 selected.push(user.id);
+                //             });
+                //         }
+                //         this.selected = selected;
+                //     }
+                // }
+            }
+        })
+    }
+</script>
+</body>
+
+</html>
