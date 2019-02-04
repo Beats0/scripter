@@ -5,6 +5,10 @@
 #### [Booru-Selector-Downloader](https://github.com/Beats0/scripter/tree/master/Booru-Selector-Downloader)
  - yandere、konachan和danbooru图片在线下载脚本
 
+#### [yande.re_db](https://beats0.github.io/scripter/yande.re_db/)
+- yanere背景图、 steam云备份
+- 下载脚本 [yande-re-db](https://greasyfork.org/zh-CN/scripts/377434-yande-re-db)
+
 #### [steam-picBed-log](https://github.com/Beats0/scripter/tree/master/steam-picBed-log)
  - 用Steam做图床
 

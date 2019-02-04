@@ -14,11 +14,15 @@
 
 (function () {
     'use strict';
-    const re = /([a-fA-F0-9]{32})/;
+    const re = /([a-fA-F0-9]{40})/;
 
     function handleDownload(e) {
         if (e.target.id === 'download') {
             const db = JSON.parse(localStorage.getItem('yande.re_db'))
+            if(!db || db.length === 0) {
+                window.alert('please save info at first!')
+            }
+            localStorage.setItem('yande.re_db', JSON.stringify([]))
             for (let i = 0; i < db.length; i++) {
                 GMDownload(db[i], db[i].match(re)[0])
             }
