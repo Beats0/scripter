@@ -9,6 +9,10 @@
 - yanere背景图、 steam云备份
 - 下载脚本 [yande-re-db](https://greasyfork.org/zh-CN/scripts/377434-yande-re-db)
 
+#### [xiamiAlbum](https://beats0.github.io/scripter/xiamiAlbum/)
+- 给虾米音乐加上封面预览
+- 下载脚本 [xiami-album](https://greasyfork.org/zh-CN/scripts/380761-xiami-album)
+
 #### [steam-picBed-log](https://github.com/Beats0/scripter/tree/master/steam-picBed-log)
  - 用Steam做图床
 
