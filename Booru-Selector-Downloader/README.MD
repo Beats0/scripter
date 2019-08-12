@@ -12,10 +12,8 @@ press key to charge
 
 'D': next page
 
-'Z': download sample image
-
 'X': download larger image
 
-'S': download original image(only in single image page)
+'S': download original image(only in single image page or danbooru)
 
-'C': change image favorite status
+'C': change favorite status

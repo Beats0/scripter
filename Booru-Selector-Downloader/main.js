@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Booru-Selector-Downloader
 // @namespace    http://tampermonkey.net/
-// @version      3.1
+// @version      3.2
 // @description  selector the pictures, consolog which you want and download the pictures online or use Node.js
 // @author       Beats0
 // @match          *://yande.re/post*
@@ -21,21 +21,24 @@
 (function () {
     'use strict';
     var originUrl = document.location.origin;
-    var REyande = /yande/, REkonachan = /konachan/, REdanbooru = /danbooru/;
-    var re1 = /\d\w+/, re2 = /([a-fA-F0-9]{32})/;
+    var REyande = /yande/,
+        REkonachan = /konachan/,
+        REdanbooru = /danbooru/;
+    var re1 = /\d\w+/,
+        re2 = /([a-fA-F0-9]{32})/,
+        re3 =/\.[0-9a-z]+$/i;
     var REyandeResult = REyande.test(originUrl);
     var REkonachanResult = REkonachan.test(originUrl);
     var REdanbooruResult = REdanbooru.test(originUrl);
     if (REyandeResult === true) {
-        yande();
+        yandeInit();
     } else if (REkonachanResult === true) {
-        konachan();
+        konachanInit();
     } else if (REdanbooruResult === true) {
-        danbooru();
+        danbooruInit();
     }
 
-
-    function yande() {
+    function yandeInit() {
         var main_menu = document.getElementById("main-menu");
         var confBord = document.createElement('li');
         var posts = document.getElementById('post-list-posts');
@@ -45,76 +48,69 @@
  <a class="submenu-button" href="#">■</a> 
  <ul class="submenu" style="display: block;">
   <li>
-  <a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a>
+  <a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a>
    </li>
    <li>
-   <a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson</a>
-   </li>
-   </li>
-   <li>
-   <a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson();Yande.sample()">sample version</a>
+    <a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson</a>
    </li>
    <li>
-   <a style="color: #ee8887;display: inline;cursor:pointer;" onclick="directlinkArr();Yande.larger()">larger version</a>
-   </li>
-   <li>
-   <a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson();Yande.original()">original version</a>
+    <a style="color: #ee8887;display: inline;cursor:pointer;">press X download larger version</a>
    </li>
    </ul>`;
         main_menu.firstElementChild.appendChild(confBord);
         var postsItems = posts.querySelectorAll('li');
-        for (var i = 0; i < postsItems.length; i++) {
+        for (let i = 0; i < postsItems.length; i++) {
             postsItems[i].classList.add('imgItem');
             postsItems[i].firstElementChild.firstElementChild.setAttribute('onclick', 'return false');
             var p = (re1.exec(postsItems[i].id)[0]);
-            var md5 = (re2.exec(postsItems[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-            document.getElementById("p" + p).setAttribute('onclick', 'myselect(' + p + ',"' + md5 + '")');
+            // var md5 = (re2.exec(postsItems[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
+            document.getElementById("p" + p).setAttribute('onclick', `myselect('${p}')`);
             var checkboxEl = document.createElement('div');
-            checkboxEl.setAttribute('position', 'relative');
+            checkboxEl.style.position = 'relative'
+            checkboxEl.style.textAlign = 'center'
             checkboxEl.innerHTML = '<input type="checkbox"  class="checkbox" id="cb(' + p + ')" >';
             postsItems[i].insertBefore(checkboxEl, postsItems[i].firstChild);
         }
     }
 
     /* konachan */
-    function konachan() {
+    function konachanInit() {
         var main_menu = document.getElementById("main-menu");
         var confBord = document.createElement('li');
         var posts = document.getElementById('post-list-posts');
         if (!posts) return
         confBord.setAttribute('class', 'static');
-        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson</a></li></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="directlinkArr();Konachan.larger()">larger version</a></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson();Konachan.original()">original for PNG</a></li></ul>';
+        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logJson()">logJson</a></li><li><a style="color: #ee8887;display: inline;cursor:pointer;">press X download larger version</a></li></ul>';
         main_menu.firstElementChild.appendChild(confBord);
         var postsItems = posts.querySelectorAll('li');
-        for (var i = 0; i < postsItems.length; i++) {
+        for (let i = 0; i < postsItems.length; i++) {
             postsItems[i].classList.add('imgItem');
             postsItems[i].firstElementChild.firstElementChild.setAttribute('onclick', 'return false');
             var p = (re1.exec(postsItems[i].id)[0]);
-            var md5 = (re2.exec(postsItems[i].querySelectorAll('.directlink, .largeimg')[0].href)[0]);
-            document.getElementById("p" + p).setAttribute('onclick', 'myselect(' + p + ',"' + md5 + '")');
+            document.getElementById("p" + p).setAttribute('onclick', `myselect('${p}')`);
             var checkboxEl = document.createElement('div');
-            checkboxEl.setAttribute('position', 'relative');
+            checkboxEl.style.position = 'relative'
+            checkboxEl.style.textAlign = 'center'
             checkboxEl.innerHTML = '<input type="checkbox"  class="checkbox" id="cb(' + p + ')" >';
             postsItems[i].insertBefore(checkboxEl, postsItems[i].firstChild);
         }
     }
 
     /* danbooru */
-    function danbooru() {
+    function danbooruInit() {
         var main_menu = document.getElementById('nav');
         var confBord = document.createElement('li');
         var posts = document.getElementById('posts');
         if (!posts) return;
         confBord.setAttribute('class', 'static');
-        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="javascript:UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson()">logJson</a></li></li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson();Danbooru.original()">download original(for jpg and png)</a></li></ul>';
+        confBord.innerHTML = '<a href="#">Download</a> <a class="submenu-button" href="#">■</a> <ul class="submenu" style="display: block;"> <li><a class="help-item post current-menu ManagementButton" id="ButtonSelectAll" onclick="UpdateBatchCount();" style="color: #ee8887;display: inline;cursor:pointer;">Select All</a> </li><li><a style="color: #ee8887;display: inline;cursor:pointer;" onclick="logDanbooruJson()">logJson</a></li></ul>';
         main_menu.firstElementChild.appendChild(confBord);
         var postsItems = posts.querySelectorAll('article');
-        for (var i = 0; i < postsItems.length; i++) {
+        for (let i = 0; i < postsItems.length; i++) {
             postsItems[i].classList.add('imgItem');
             postsItems[i].firstElementChild.setAttribute('onclick', 'return false');
             var p = postsItems[i].dataset.id;
-            var md5 = postsItems[i].dataset.md5;
-            postsItems[i].setAttribute('onclick', 'Danboorumyselect(' + p + ',"' + md5 + '")');
+            postsItems[i].setAttribute('onclick', `myselect('${p}')`);
             var checkboxEl = document.createElement('div');
             checkboxEl.setAttribute('position', 'relative');
             checkboxEl.innerHTML = '<input type="checkbox"  class="checkbox" id="cb(' + p + ')" >';
@@ -131,52 +127,28 @@
         head.appendChild(style);
     }
 
-    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover, .imgItem:focus { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-colo; } .imgItemChecked { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-colo; } article.post-preview { float:none;}');
+    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover, .imgItem:focus { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } .imgItemChecked { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } article.post-preview { float:none;}');
 
     var removeFav = document.getElementById('remove-from-favs')
     var addFav = document.getElementById('add-to-favs')
 
-    var flag = false
-
-    // sample version
-    function downloadSample() {
-        for (let i = 0; i < pUrls.length; i++) {
-            let url = ''
-            if (REyandeResult) {
-                url = 'https://files.yande.re/sample/' + pUrls[i].md5 + '/' + pUrls[i].id + '.jpg';
-                GMDownload(url, pUrls[i].id)
-            } else if (REkonachanResult) {
-                url = 'https://konachan.com/sample/' + pUrls[i].md5 + '/' + pUrls[i].id + '.jpg';
-                GMDownload(url, pUrls[i].id)
-            }
-        }
+    function downloadLarger() {
+        pUrls.map(pic => {
+            GMDownload(`${pic.largeFileUrl}`, `${pic.id}${re3.exec(pic.largeFileUrl)[0]}`)
+        })
     }
 
-    // larger version
-    let largerArr = Array.from(document.querySelectorAll('.largeimg')).map((pic, index) => pic.href)
-    let unMathArr = []
-
-    function downloadLarger() {
-        for (let i = 0; i < pUrls.length; i++) {
-            let re = new RegExp(pUrls[i].md5, 'i')
-            largerArr.map((pic, index) => {
-                if (re.test(pic)) {
-                    GMDownload(pic, pUrls[i].md5)
-                } else {
-                    unMathArr = [...unMathArr, `${pUrls[i].id}/${pUrls[i].md5}`]
-                }
-            })
-        }
-        unMathArr.map((pic, index) => {
-            console.warn(`${pic} dosen't match`)
+    function downloadOriginal() {
+        pUrls.map(pic => {
+            GMDownload(`${pic.fileUrl}`, `${pic.id}${re3.exec(pic.fileUrl)[0]}`)
         })
     }
 
     // GM downloader
-    function GMDownload(url, name) {
+    function GMDownload(url, fileName) {
         var arg = {
             url,
-            name: name + '.jpg',
+            name: fileName,
             onprogress: downloadProgress
         }
         console.log(arg)
@@ -188,34 +160,23 @@
     var pageLeft = document.querySelector('#paginator > div > a.previous_page')
 
     // in single page
-    var image = document.getElementById('image')
     var largerImage = document.getElementById('highres-show')
-    var highres = document.getElementById('highres')
 
     function GMhandler(e) {
-        // sample
-        if (e.key === 'z') {
-            if (image) {
-                GMDownload(image.src, image.src.match(re2)[0])
-                return
-            }
-            flag = true
-            logJson()
-            downloadSample()
+        // danbooru
+        if(REdanbooruResult) {
+            GMhandlerDanbooru(e)
+            return;
         }
+        // yande.re || konachan
         // larger
         if (e.key === 'x') {
             if (largerImage) {
                 GMDownload(largerImage.href, largerImage.href.match(re2)[0])
-                return
+            } else {
+                logJson()
+                downloadLarger()
             }
-            flag = true
-            logJson()
-            downloadLarger()
-        }
-        // original
-        if (e.key === 's' && highres) {
-            GMDownload(highres.href, highres.href.match(re2)[0])
         }
         // change fav
         if (e.key === 'c' && removeFav && addFav) {
@@ -229,6 +190,19 @@
         }
         if (e.key === 'a' && pageLeft) {
             pageLeft.click()
+        }
+    }
+
+    function GMhandlerDanbooru(e) {
+        // larger
+        if (e.key === 'x') {
+            logDanbooruJson()
+            downloadLarger()
+        }
+        // original
+        if (e.key === 's') {
+            logDanbooruJson()
+            downloadOriginal()
         }
     }
 
