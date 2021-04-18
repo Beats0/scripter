@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         yande.re_db
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  yande.re_db downloader by Beats0
 // @author       Beats0
-// @match        *://beats0.github.io/scripter/*
-// @match        *://localhost/*
+// @match        *://beats0.github.io/scripter/yande.re_db/*
+// @match        *://mynovel.life/scripter/yande.re_db/*
 // @grant        GM_download
 // @grant        GM_info
 // @grant        GM.download
@@ -18,9 +18,11 @@
 
     function handleDownload(e) {
         if (e.target.id === 'download') {
+            const saveEl = document.querySelectorAll('.btn')[1]
+            saveEl.click()
             const db = JSON.parse(localStorage.getItem('yande.re_db'))
             if(!db || db.length === 0) {
-                window.alert('please save info at first!')
+                window.alert('please select image!')
             }
             localStorage.setItem('yande.re_db', JSON.stringify([]))
             for (let i = 0; i < db.length; i++) {
