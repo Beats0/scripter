@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         网易云显示封面
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  网易云显示封面，支持歌单页、每日推荐页、歌手热门50首歌曲页、榜单页
 // @author       Beats0
 // @require      https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js
@@ -84,40 +84,41 @@
     }
 
     // 歌单
-    loadPlaylist(id) {
-      const formData = {
-        id,
-        limit: "9999",
-        n: "9999",
-        offset: "0",
-        total: "true",
-      }
-      let _this = this
-      const apiUrl = `/weapi/v6/playlist/detail`
-      this.fetchData(apiUrl, formData)
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.code === 200) {
-            let tracks = res.playlist.tracks
-            setTimeout(() => {
-              const gDocument = _this.getGIframeDocument()
-              let elLists = gDocument.querySelectorAll('td .hd')
-
-              tracks.forEach((track, index) => {
-                const picUrl = track.al.picUrl
-                let albumEl = document.createElement('a');
-                albumEl.setAttribute('href', picUrl)
-                albumEl.setAttribute('target', '_blank')
-                let albumImgEl = document.createElement('img');
-                albumImgEl.setAttribute('src', `${ picUrl }?param=150y150`)
-                albumImgEl.setAttribute('class', `picImg`)
-                albumEl.appendChild(albumImgEl)
-                elLists[index].appendChild(albumEl)
-              })
-            }, 3000);
-          }
-        });
+  loadPlaylist(id) {
+    const formData = {
+      id,
+      limit: "9999",
+      n: "9999",
+      offset: "0",
+      total: "true",
     }
+    let _this = this
+    const apiUrl = `/weapi/v6/playlist/detail`
+    this.fetchData(apiUrl, formData)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.code === 200) {
+          let tracks = res.playlist.tracks || [];
+          setTimeout(() => {
+            const gDocument = _this.getGIframeDocument();
+            const resId = String(gDocument.querySelector('.u-btni-addply').getAttribute('data-res-id'))
+            let elLists = gDocument.querySelectorAll('td .hd');
+            tracks.forEach((track, index) => {
+              if(resId !== String(id)) return;
+              const picUrl = track.al.picUrl;
+              let albumEl = document.createElement('a');
+              albumEl.setAttribute('href', picUrl);
+              albumEl.setAttribute('target', '_blank');
+              let albumImgEl = document.createElement('img');
+              albumImgEl.setAttribute('src', `${picUrl}?param=150y150`);
+              albumImgEl.setAttribute('class', `picImg`);
+              albumEl.appendChild(albumImgEl);
+              elLists[index].appendChild(albumEl);
+            });
+          }, 1000);
+        }
+      });
+  }
 
     // 每日推荐
     loadRecommendPlayList() {
@@ -132,19 +133,22 @@
         .then((res) => res.json())
         .then((res) => {
           if (res.code === 200) {
-            let tracks = res.data.dailySongs
+            let tracks = res.data.dailySongs || []
             setTimeout(() => {
               const gDocument = _this.getGIframeDocument()
               let elLists = gDocument.querySelectorAll('td.left .hd')
-
               tracks.forEach((track, index) => {
                 const picUrl = track.album.picUrl
+                let albumEl = document.createElement('a');
+                albumEl.setAttribute('href', picUrl)
+                albumEl.setAttribute('target', '_blank')
                 let albumImgEl = document.createElement('img');
                 albumImgEl.setAttribute('src', `${ picUrl }?param=150y150`)
                 albumImgEl.setAttribute('class', `picImg`)
-                elLists[index].appendChild(albumImgEl)
+                albumEl.appendChild(albumImgEl)
+                elLists[index].appendChild(albumEl)
               })
-            }, 3000);
+            }, 1000);
           }
         });
     }
@@ -176,7 +180,7 @@
                 albumEl.appendChild(albumImgEl)
                 elLists[index].appendChild(albumEl)
               })
-            }, 3000);
+            }, 1000);
           }
         });
     }
