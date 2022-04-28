@@ -118,6 +118,13 @@
         }
     }
 
+    function initLoading() {
+        const progressEl = document.createElement('div');
+        progressEl.innerHTML = `<div class="loading-mask" style="display: none;"> <div class="loading-spinner"> <svg viewBox="25 25 50 50" class="loading-circular"> <circle cx="50" cy="50" r="20" fill="none" class="path"></circle> </svg> <p class="loading-spinner-text">5/20</p> </div> </div>`
+        document.body.appendChild(progressEl)
+    }
+    initLoading()
+
     function loadCssCode(code) {
         var style = document.createElement('style');
         style.type = 'text/css';
@@ -127,7 +134,7 @@
         head.appendChild(style);
     }
 
-    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover, .imgItem:focus { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } .imgItemChecked { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } article.post-preview { float:none;}');
+    loadCssCode('ul#post-list-posts li {float:none}.imgItem:hover, .imgItem:focus { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } .imgItemChecked { outline: 1px solid Highlight;outline: 1px auto -webkit-focus-ring-color; } article.post-preview { float:none;} .loading-mask { position: fixed; z-index: 2000; background-color: rgba(0, 0, 0, 0.6); margin: 0; top: 0; right: 0; bottom: 0; left: 0; transition: opacity .3s; } .loading-spinner { top: 50%; margin-top: -21px; width: 100%; text-align: center; position: absolute; } .loading-spinner .loading-circular { height: 42px; width: 42px; animation: loading-rotate 2s linear infinite; } .loading-spinner .path { animation: loading-dash 1.5s ease-in-out infinite; stroke-dasharray: 90,150; stroke-dashoffset: 0; stroke-width: 2; stroke: #ee8887; stroke-linecap: round; } .loading-spinner-text { color: #ee8887; margin: 3px 0; font-size: 14px; line-height: 1.5em; } @keyframes loading-rotate { to { transform: rotate(1turn) } } @keyframes loading-dash { 0% { stroke-dasharray: 1,200; stroke-dashoffset: 0 } 50% { stroke-dasharray: 90,150; stroke-dashoffset: -40px } to { stroke-dasharray: 90,150; stroke-dashoffset: -120px } }');
 
     var removeFav = document.getElementById('remove-from-favs')
     var addFav = document.getElementById('add-to-favs')
@@ -241,6 +248,7 @@
     var HeadEl = document.getElementsByTagName('head').item(0);
     var ScriptEl = document.createElement("script");
     ScriptEl.type = "text/javascript";
-    ScriptEl.src = "https://beats0.github.io/scripter/Booru-Selector-Downloader/myselect.js";
+    // ScriptEl.src = "https://beats0.github.io/scripter/Booru-Selector-Downloader/myselect.js";
+    ScriptEl.src = "http://localhost:5500/Booru-Selector-Downloader/myselect.js";
     HeadEl.appendChild(ScriptEl);
 })();

@@ -17,3 +17,22 @@ press key to charge
 'S': download original image(only in single image page or danbooru)
 
 'C': change favorite status
+
+
+## Booru-Selector-Downloader v2
+
+press key to charge
+
+`A`: previous page
+
+`D`: next page
+
+`S`: Save larger image
+
+`F`: Favorite image
+
+`R`: Remove from favorites
+
+`Ctrl + MouseClick`: open in new window not auto focus
+
+`Alt + MouseClick`: open in new window and auto focus
