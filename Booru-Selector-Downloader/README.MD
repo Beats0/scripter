@@ -7,8 +7,10 @@
 ### List of supported imageboards*:
 
 - [yande.re](https://yande.re/)
-- [konachan](https://konachan.com/)
+- [konachan.net](https://konachan.net)
+- [konachan.com](https://konachan.com/)
 - [danbooru](http://danbooru.donmai.us/)
+- [sonohara](http://sonohara.donmai.us/)
 
 
 ### Hotkeys
@@ -16,6 +18,8 @@
 `A`: Previous page
 
 `D`: Next page
+
+`Q`: Select/Deselect all image
 
 `S`: Save sample image
 
