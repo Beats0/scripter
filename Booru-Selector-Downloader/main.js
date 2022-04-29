@@ -7,6 +7,7 @@
 // @description:en    A selector and downloader for the various booru imageboards
 // @description:zh    图站选择下载工具
 // @author            Beats0
+// @license           GPL-3.0 License
 // @match             *://yande.re/post*
 // @match             *://konachan.net/*
 // @match             *://konachan.com/*
