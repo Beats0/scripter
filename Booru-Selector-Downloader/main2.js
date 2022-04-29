@@ -56,18 +56,23 @@
       this.batchCount = 0
       this.downloadLimit = 4
       this.init()
-      this.initStyle()
-      this.initMenuPanel()
-      this.initHotKey()
     }
 
     init() {
       console.log('init BooruDownloader')
       if (REyandeResult || REkonachanResult) {
+        let posts = $('#post-list-posts');
+        if (!posts) return
         this.init_yande_konachan();
-      } else if (REdanbooruResult) {
+      }
+      if (REdanbooruResult) {
+        const posts = $('.posts-container')
+        if(!posts) return
         this.init_danbooru();
       }
+      this.initStyle()
+      this.initMenuPanel()
+      this.initHotKey()
     }
 
     initStyle() {
@@ -109,7 +114,7 @@
                 position: fixed;
                 font-size: 12px;
                 right: 10px;
-                bottom: 0;
+                bottom: 4px;
                 background: var(--primary-backgroundColor);
                 color: var(--primary-fontColor);
                 border: var(--primary-border);
@@ -160,11 +165,11 @@
                 padding-right: 32px;
             }
       
-            .board-content {
+             .board-content {
                 overflow-y: auto;
                 overflow-x: hidden;
                 max-height: 340px;
-                padding: 10px 12px;
+                padding: 10px 12px 50px 12px;
                 height: 100%;
                 font-size: 14px;
             }
@@ -282,7 +287,6 @@
 
     init_yande_konachan() {
       let posts = $('#post-list-posts');
-      if (!posts) return
       let postsItems = posts.querySelectorAll('li');
       for (let i = 0; i < postsItems.length; i++) {
         postsItems[i].classList.add('imgItem');
@@ -294,7 +298,15 @@
     }
 
     init_danbooru() {
-
+      const posts = $('.posts-container')
+      const postsItems = posts.querySelectorAll('article');
+      for (let i = 0; i < postsItems.length; i++) {
+        postsItems[i].classList.add('imgItem');
+        postsItems[i].firstElementChild.setAttribute('onclick', 'return false');
+        const template = `<div style="position: relative;text-align: center;"><input type="checkbox" class="checkbox"></div>`
+        postsItems[i].insertAdjacentHTML('afterbegin', template);
+      }
+      posts.addEventListener('click', (e) => this.handleClickImg(e, 'post-list-posts'))
     }
 
     initMenuEvent() {
@@ -314,7 +326,7 @@
 
       $('.theme-btn').addEventListener('click', (e) => this.handleToggleTheme(e))
       $('#buttonSelectAll').addEventListener('click', (e) => this.handleClickMenuAllBtn(e))
-      $('#downloadLarger').addEventListener('click', (e) => this.handleDownLoadImg(e, 'larger'))
+      $('#downloadSample').addEventListener('click', (e) => this.handleDownLoadImg(e, 'sample'))
       $('#downloadOriginal').addEventListener('click', (e) => this.handleDownLoadImg(e, 'original'))
       $('#addFavorite').addEventListener('click', (e) => this.handleFavorite(true))
       $('#removeFavorite').addEventListener('click', (e) => this.handleFavorite(false))
@@ -346,7 +358,7 @@
               <div class="row-label hover-item" id="buttonSelectAll">Select All 0 Image</div>
             </div>
             <div class="board-content-row">
-              <div class="row-label hover-item" id="downloadLarger">Download Larger</div>
+              <div class="row-label hover-item" id="downloadSample">Download Sample</div>
             </div>
             <div class="board-content-row">
               <div class="row-label hover-item" id="downloadOriginal">Download Origin</div>
@@ -371,14 +383,17 @@
     }
 
     initHotKey() {
-      window.addEventListener('keydown', this.hotKeyHandler, false)
+      window.addEventListener('keydown', (e) => this.hotKeyHandler(e), false)
     }
 
+    /**
+     * @param   {KeyboardEvent}   e
+     * */
     hotKeyHandler(e) {
       // press key `A` or `D` to paginate
       const pageRight = $('#paginator > div > a.next_page')
       const pageLeft = $('#paginator > div > a.previous_page')
-      // `A`, `D`: paginate
+      // `A`, `D`: paginate(only for yande.re and danbooru)
       if (e.key === 'd' && pageRight) {
         pageRight.click()
       }
@@ -395,9 +410,13 @@
         this.handleFavorite(false)
       }
 
-      // `S`: Save larger image
+      // `S`: Save sample image
       if (e.key === 's') {
-        this.handleDownLoadImg(null, 'larger').then(res => {})
+        this.handleDownLoadImg(null, 'sample').then(res => {})
+      }
+      // `X`: Save original image
+      if (e.key === 'x') {
+        this.handleDownLoadImg(null, 'original').then(res => {})
       }
     }
 
@@ -417,7 +436,7 @@
           {key: 'fontColor', value: '#ee8887'},
           {key: 'fontColorHover', value: '#ff4342'},
           {key: 'headerFontColor', value: '#ffffff'},
-          {key: 'border', value: '1px solid #c17b7b'},
+          {key: 'border', value: '1px solid #fbe0df'},
         ]
         lightTheme.forEach(item => this.setCssVariable(item))
         document.body.setAttribute('data-theme', 'light')
@@ -455,16 +474,22 @@
 
     /**
      * @param   {Event}     e
-     * @param   {string}   type   larger | original
+     * @param   {string}   type   sample | original
      * */
-    async handleDownLoadImg(e, type = 'larger') {
+    async handleDownLoadImg(e, type = 'sample') {
       const postsItems = $$('.imgItemChecked');
       let imgs = []
       if(postsItems.length) {
         this.updateFetchingProgress(0, postsItems.length)
       }
       for (let i = 0; i < postsItems.length; i++) {
-        const id = Number(postsItems[i].getAttribute('id').replace('p', ''))
+        let id = 0
+        if (REyandeResult || REkonachanResult) {
+          id = Number(postsItems[i].getAttribute('id').replace('p', ''))
+        }
+        if (REdanbooruResult) {
+          id = Number(postsItems[i].getAttribute('data-id'))
+        }
         const imgInfo = await this.fetchDetailPage(id)
         imgs.push({
           id,
@@ -655,7 +680,7 @@
         pageUrl = `${locationUrl}/post/show/${id}`
       }
       if(REdanbooruResult) {
-        pageUrl = `${pageUrl}/post/${id}`
+        pageUrl = `${pageUrl}/posts/${id}`
       }
       return pageUrl
     }
@@ -666,7 +691,13 @@
     handleFavorite(isLike) {
       const postsItems = $$('.imgItemChecked');
       for (let i = 0; i < postsItems.length; i++) {
-        const id = Number(postsItems[i].getAttribute('id').replace('p', ''))
+        let id = 0
+        if (REyandeResult || REkonachanResult) {
+          id = Number(postsItems[i].getAttribute('id').replace('p', ''))
+        }
+        if (REdanbooruResult) {
+          id = Number(postsItems[i].getAttribute('data-id'))
+        }
         this.fetchFavorite(id, isLike)
       }
     }
@@ -676,38 +707,59 @@
      * @param   {boolean}     isLike
      * */
     fetchFavorite(id, isLike) {
-      if(REyandeResult || REkonachanResult) {
-        const csrfToken = $("meta[name=csrf-token]").content
-        fetch(`${locationUrl}/post/vote.json`, {
+      const csrfToken = $("meta[name=csrf-token]").content
+      let url = ``
+      let data = {}
+
+      if (REyandeResult || REkonachanResult) {
+        url = `${ locationUrl }/post/vote.json`
+        data = {
           "headers": {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
             "x-csrf-token": csrfToken,
           },
-          "body": `id=${ id }&score=${ isLike ? 3 : 2}`,
+          "body": `id=${ id }&score=${ isLike ? 3 : 2 }`,
           "method": "POST",
           "mode": "cors",
           "credentials": "include"
-        })
-          .then(res => {
-            if(res.status === 200) {
-              const log = {
-                id,
-                isLike,
-                result: 'success',
-              }
-              this.addFavoriteLog(log)
-            }
-          })
-          .catch(e => {
+        }
+      }
+
+      if (REdanbooruResult) {
+        url = isLike ? `${ locationUrl }/favorites?post_id=${ id }` : `${ locationUrl }/favorites/4371748`
+        data = {
+          "headers": {
+            "accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
+            "x-csrf-token": csrfToken,
+            "x-requested-with": "XMLHttpRequest"
+          },
+          "body": null,
+          "method": isLike ? "POST" : "DELETE",
+          "mode": "cors",
+          "credentials": "include"
+        }
+      }
+
+      fetch(url, data)
+        .then(res => {
+          if (res.status === 200) {
             const log = {
               id,
               isLike,
-              result: 'error',
+              result: 'success',
             }
             this.addFavoriteLog(log)
-            console.error('add favorite error')
-          })
-      }
+          }
+        })
+        .catch(e => {
+          const log = {
+            id,
+            isLike,
+            result: 'error',
+          }
+          this.addFavoriteLog(log)
+          console.error('add favorite error')
+        })
     }
 
     handleClickFavList(e, parentClassName) {
@@ -775,7 +827,7 @@
       const link = this.getPageUrl(id)
       return new Promise((resolve, reject) => {
         let imgInfo = {
-          larger: '',
+          sample: '',
           original: '',
         }
         if(REyandeResult || REkonachanResult) {
@@ -784,13 +836,12 @@
             .then(res => {
               const bodyText = res
               const dom = domParser(bodyText)
-              const largerSrc = dom.querySelector('#highres-show').href
+              const sampleSrc = dom.querySelector('#image').src
               const originalSrc = dom.querySelector('#highres').href
               imgInfo = {
-                larger: largerSrc,
+                sample: sampleSrc,
                 original: originalSrc,
               }
-              console.log(imgInfo);
               resolve(imgInfo)
             }).catch(e => {
             console.log(e)
@@ -803,13 +854,13 @@
             .then(res => {
               const bodyText = res
               const dom = domParser(bodyText)
-              const largerSrc = dom.querySelector('#highres-show').href
-              const originalSrc = dom.querySelector('#highres').href
+              const sampleSrc = dom.querySelector('#image').src
+              const originalEl = dom.querySelector('.image-view-original-link')
+              const originalSrc = originalEl ? originalEl.href : sampleSrc
               imgInfo = {
-                larger: largerSrc,
+                sample: sampleSrc,
                 original: originalSrc,
               }
-              console.log(imgInfo);
               resolve(imgInfo)
             }).catch(e => {
             console.log(e)
@@ -823,7 +874,11 @@
       let el = e.target
       let hasEl = false
       while (el !== document && el.id !== parentId) {
-        if (el.tagName.toLowerCase() === 'li') {
+        if ((REyandeResult || REkonachanResult) && el.tagName.toLowerCase() === 'li') {
+          hasEl = true
+          break;
+        }
+        if (REdanbooruResult && el.tagName.toLowerCase() === 'article') {
           hasEl = true
           break;
         }
@@ -833,17 +888,29 @@
 
       // press ctrlKey: open in new window, loadInBackground true, won't auto focus
       if(e.ctrlKey) {
-        const link = el.querySelector('a.thumb').href
+        let link = ``
+        if(REyandeResult || REkonachanResult) {
+          link = el.querySelector('a.thumb').href
+        }
+        if(REdanbooruResult) {
+          link = el.querySelector('a.post-preview-link').href
+        }
         GM_openInTab(link, true)
         return;
       }
-
       // press altKey: open in new window, loadInBackground false, will auto focus
       if(e.altKey) {
-        const link = el.querySelector('a.thumb').href
+        let link = ``
+        if(REyandeResult || REkonachanResult) {
+          link = el.querySelector('a.thumb').href
+        }
+        if(REdanbooruResult) {
+          link = el.querySelector('a.post-preview-link').href
+        }
         GM_openInTab(link, false)
         return;
       }
+
       const cbEl = el.getElementsByClassName('checkbox')[0]
       cbEl.checked = !cbEl.checked
       cbEl.checked ? el.classList.add('imgItemChecked') : el.classList.remove('imgItemChecked')
