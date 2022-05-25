@@ -9,8 +9,8 @@
  - 安装脚本 [NeteaseCloudMusicPic](https://greasyfork.org/zh-CN/scripts/425209-%E7%BD%91%E6%98%93%E4%BA%91%E6%98%BE%E7%A4%BA%E5%B0%81%E9%9D%A2)
 
  
-#### [Booru-Selector-Downloader(新版开发中)](https://github.com/Beats0/scripter/tree/master/Booru-Selector-Downloader)
- - yandere、konachan和danbooru图片在线下载脚本
+#### [Booru-Selector-Downloader](https://github.com/Beats0/scripter/tree/master/Booru-Selector-Downloader)
+ - 图站脚本, 主要包含下载、收藏、图片预览等功能, 已支持站点: yandere、konachan、danbooru、gelbooru
  - 安装脚本 [Booru-Selector-Downloader](https://greasyfork.org/zh-CN/scripts/371605-booru-selector-downloader)
 
 #### [yande.re_db](https://beats0.github.io/scripter/yande.re_db/)
