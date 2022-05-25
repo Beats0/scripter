@@ -2,7 +2,7 @@
 // @name              Booru-Selector-Downloader
 // @namespace         http://tampermonkey.net/
 // @icon              https://yande.re/favicon.ico
-// @version           4.0.0
+// @version           4.0.1
 // @description       A selector and downloader for the various booru imageboards
 // @description:en    A selector and downloader for the various booru imageboards
 // @description:zh    图站选择下载工具
@@ -11,11 +11,13 @@
 // @match             *://yande.re/post*
 // @match             *://konachan.net/*
 // @match             *://konachan.com/*
+// @match             *://gelbooru.com/*
 // @match             *://danbooru.donmai.us/*
 // @match             *://sonohara.donmai.us/*
 // @include           *://yande.re/*
 // @include           *://konachan.net/*
 // @include           *://konachan.com/*
+// @include           *://gelbooru.com/*
 // @include           *://danbooru.donmai.us/*
 // @include           *://sonohara.donmai.us/*
 // @grant             GM_addStyle
@@ -25,12 +27,28 @@
 // @home-url2         https://github.com/Beats0/scripter
 // ==/UserScript==
 
+/**
+ * ### Hot keys
+ *
+ * `A`: Previous page
+ * `D`: Next page
+ * `Q`: Select/Deselect all image
+ * `S`: Save sample image
+ * `X`: Save original image(if no original image, the downloader will download the sample image)
+ * `F`: Favorite image
+ * `R`: Remove from favorites
+ * `Ctrl + MouseClick`: Open in the new window
+ * `Alt + MouseClick`: Open in the new window and auto focus the new tab
+ * `Shift + MouseHover`: Show preview image when hover the image, default scale size is `scale(2.5, 2.5)`
+ * */
+
 (function () {
   'use strict';
   const originUrl = document.location.origin;
   const locationUrl = document.location.protocol + '//' + window.location.host;
   const REyande = /yande/,
     REkonachan = /konachan/,
+    REgelbooru = /gelbooru/,
     REdanbooru = /danbooru/,
     REsonohara = /sonohara/;
   const re1 = /\d\w+/,
@@ -39,6 +57,7 @@
   const REyandeResult = REyande.test(originUrl);
   const REkonachanResult = REkonachan.test(originUrl);
   const REdanbooruResult = REdanbooru.test(originUrl) || REsonohara.test(originUrl);
+  const REgelbooruResult = REgelbooru.test(originUrl);
   let parse = null
   const reTrySvgIcon = `<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11702" width="20" height="20"><path d="M512 214.016q141.994667 0 242.005333 100.010667t100.010667 240q0 141.994667-100.992 242.005333t-240.981333 100.010667-240.981333-100.010667-100.992-242.005333l86.016 0q0 105.984 75.008 180.992t180.992 75.008 180.992-75.008 75.008-180.992-75.008-180.992-180.992-75.008l0 171.989333-214.016-214.016 214.016-214.016 0 171.989333z" p-id="11703" fill="#ee8887"></path></svg>`
 
@@ -78,6 +97,8 @@
     constructor() {
       this.batchCount = 0
       this.downloadLimit = 4
+      this.hoverEl = null
+      this.cacheImg = {} // {id: src}
       this.init()
     }
 
@@ -92,6 +113,11 @@
         const posts = $('.posts-container')
         if(!posts) return
         this.init_danbooru();
+      }
+      if (REgelbooruResult) {
+        const posts = $('.thumbnail-container')
+        if(!posts) return
+        this.init_gelbooru();
       }
       this.initStyle()
       this.initMenuPanel()
@@ -127,10 +153,15 @@
             div#posts {
                padding-bottom: 200px;
             }
-      
+            .imgItem {
+                transition: .2s;
+            }
             .imgItem:hover, .imgItem:focus {
                 outline: 1px solid var(--primary-fontColor);
             }
+            .imgItem img {
+                transition: .2s;
+             }
       
             .imgItemChecked {
                 outline: 1px solid var(--primary-fontColor);
@@ -264,6 +295,7 @@
       
             .download-row-container {
                 margin-top: 15px;
+                padding-bottom: 15px;
             }
             .download-row {
                 display: flex;
@@ -317,6 +349,26 @@
               background: #ebedf0;
               color: var(--primary-fontColor);
             }
+            .imgTransform {
+              opacity: 1!important;
+              z-index: 999;
+            }
+            .imgTransform img {
+              transform: scale(2.5, 2.5);
+              transition: .2s;
+            }
+            .previewTip .imgItem {
+               opacity: 0.5;
+            }
+            .imgTransform .thumb {
+                position: absolute;
+                z-index: 1;
+            }
+            .hide {
+                width: 0;
+                height: 0;
+                display: none!important;
+            }
       `
       GM_addStyle(styleCode)
     }
@@ -329,8 +381,10 @@
         postsItems[i].firstElementChild.firstElementChild.setAttribute('onclick', 'return false');
         const template = `<div style="position: relative;text-align: center;"><input type="checkbox" class="checkbox"></div>`
         postsItems[i].insertAdjacentHTML('afterbegin', template);
+        postsItems[i].addEventListener('mouseover', (e) => this.setTransition(e, 'mouseover', i))
+        postsItems[i].addEventListener('mouseout', (e) => this.setTransition(e, 'mouseout', i))
       }
-      posts.addEventListener('click', (e) => this.handleClickImg(e, 'post-list-posts'))
+      posts.addEventListener('click', (e) => this.handleClickImg(e))
     }
 
     init_danbooru() {
@@ -341,8 +395,25 @@
         postsItems[i].firstElementChild.setAttribute('onclick', 'return false');
         const template = `<div style="position: relative;text-align: center;"><input type="checkbox" class="checkbox"></div>`
         postsItems[i].insertAdjacentHTML('afterbegin', template);
+        postsItems[i].addEventListener('mouseover', (e) => this.setTransition(e, 'mouseover', i))
+        postsItems[i].addEventListener('mouseout', (e) => this.setTransition(e, 'mouseout', i))
       }
-      posts.addEventListener('click', (e) => this.handleClickImg(e, 'post-list-posts'))
+      posts.addEventListener('click', (e) => this.handleClickImg(e))
+    }
+
+    init_gelbooru() {
+      const posts = $('.thumbnail-container')
+      const postsItems = posts.querySelectorAll('article');
+      for (let i = 0; i < postsItems.length; i++) {
+        postsItems[i].classList.add('imgItem');
+        postsItems[i].style.position = 'relative'
+        postsItems[i].firstElementChild.setAttribute('onclick', 'return false');
+        const template = `<div style="position: absolute; top: 0; text-align: center;"><input type="checkbox" class="checkbox"></div>`
+        postsItems[i].insertAdjacentHTML('afterbegin', template);
+        postsItems[i].addEventListener('mouseover', (e) => this.setTransition(e, 'mouseover', i))
+        postsItems[i].addEventListener('mouseout', (e) => this.setTransition(e, 'mouseout', i))
+      }
+      posts.addEventListener('click', (e) => this.handleClickImg(e))
     }
 
     initMenuEvent() {
@@ -358,7 +429,9 @@
         }
       }
       const theme = localStorage.getItem('h-theme') || 'light'
+      const showToolTip = localStorage.getItem('h-show-tooltip') || '1'
       this.setTheme(theme)
+      this.handleToggleToolTip(showToolTip)
 
       $('.theme-btn').addEventListener('click', (e) => this.handleToggleTheme(e))
       $('#buttonSelectAll').addEventListener('click', (e) => this.handleClickMenuAllBtn())
@@ -367,6 +440,10 @@
       $('#addFavorite').addEventListener('click', (e) => this.handleFavorite(true))
       $('#removeFavorite').addEventListener('click', (e) => this.handleFavorite(false))
       $('.fav-list-container').addEventListener('click', (e) => this.handleClickFavList(e, 'fav-list-container'))
+      $('#showToolTipBtn').addEventListener('click', (e) => {
+        const newShowToolTip = localStorage.getItem('h-show-tooltip') === '1' ? '0' : '1'
+        this.handleToggleToolTip(newShowToolTip)
+      })
     }
 
     initMenuPanel() {
@@ -406,8 +483,11 @@
               <div class="row-label hover-item" id="removeFavorite" title="Hotkey R">Remove From Favorite</div>
             </div>
             <div class="board-content-row">
+              <div class="row-label hover-item" id="showToolTipBtn" title="Hotkey Shift + MouseHover On Image">Show Preview ToolTip: <span>[On]</span></div>
+            </div>
+            <div class="board-content-row">
               <div class="row-label">Release Note: </div>
-              <a class="row-content hover-item-line" href="https://greasyfork.org/zh-CN/scripts/371605-booru-selector-downloader" target="_blank">v4.0.0</a>
+              <a class="row-content hover-item-line" href="https://greasyfork.org/zh-CN/scripts/371605-booru-selector-downloader" target="_blank">v4.0.1</a>
             </div>
             <div class="fav-list-container"></div>
             <div class="download-row-container"></div>
@@ -420,15 +500,23 @@
 
     initHotKey() {
       window.addEventListener('keydown', (e) => this.hotKeyHandler(e), false)
+      window.addEventListener('keyup', (e) => this.handleKeyUp(e), false)
     }
 
     /**
      * @param   {KeyboardEvent}   e
      * */
-    hotKeyHandler(e) {
+    async hotKeyHandler(e) {
+      // ignore input event
+      if(e.target && e.target.tagName === 'INPUT') return
+
       // press key `A` or `D` to paginate
-      const pageRight = $('#paginator > div > a.next_page')
-      const pageLeft = $('#paginator > div > a.previous_page')
+      let pageRight = $('#paginator > div > a.next_page')
+      let pageLeft = $('#paginator > div > a.previous_page')
+      if (REgelbooruResult) {
+        pageRight = $('#paginator b').previousElementSibling
+        pageLeft = $('#paginator b').nextElementSibling
+      }
       // `A`, `D`: paginate(only for yande.re and danbooru)
       if (e.key === 'd' && pageRight) {
         pageRight.click()
@@ -458,6 +546,72 @@
       // `X`: Save original image
       if (e.key === 'x') {
         this.handleDownLoadImg(null, 'original').then(res => {})
+      }
+      // 'Shift': Show larger image tool tip
+      if (e.key === 'Shift') {
+        let posts = null
+        let el = this.hoverEl
+        if (el) {
+          this.hoverEl.classList.add('imgTransform')
+        }
+        if (REyandeResult || REkonachanResult) {
+          posts = $('#post-list-posts');
+        }
+        if (REdanbooruResult) {
+          posts = $('.posts-container')
+          if (el) {
+            const id = Number(el.getAttribute('data-id'))
+            if (!this.cacheImg.hasOwnProperty(id)) {
+              this.cacheImg[id] = ''
+              const imgInfo = await this.fetchDetailPage(id)
+              const sample = imgInfo.sample
+              this.cacheImg[id] = sample
+              el.querySelector('source').srcset = sample
+              el.querySelector('img').src = sample
+            }
+            el.classList.add('imgTransform')
+          }
+        }
+        if (REgelbooruResult) {
+          posts = $('.thumbnail-container')
+          if (el) {
+            const id = Number(el.querySelector('a').getAttribute('id').replace('p', ''))
+            if (!this.cacheImg.hasOwnProperty(id)) {
+              this.cacheImg[id] = ''
+              const imgInfo = await this.fetchDetailPage(id)
+              const sample = imgInfo.sample
+              this.cacheImg[id] = sample
+              el.querySelector('img').src = sample
+            }
+          }
+        }
+        posts.classList.add('previewTip')
+      }
+    }
+
+    /**
+     * @param   {KeyboardEvent}   e
+     * */
+    handleKeyUp(e) {
+      // ignore input event
+      if(e.target && e.target.tagName === 'INPUT') return
+
+      // 'Shift': close larger image tool tip
+      if (e.key === 'Shift') {
+        if (this.hoverEl) {
+          this.hoverEl.classList.remove('imgTransform')
+        }
+        let posts = null
+        if (REyandeResult || REkonachanResult) {
+          posts = $('#post-list-posts');
+        }
+        if (REdanbooruResult) {
+          posts = $('.posts-container')
+        }
+        if (REgelbooruResult) {
+          posts = $('.thumbnail-container')
+        }
+        posts.classList.remove('previewTip')
       }
     }
 
@@ -530,6 +684,9 @@
         }
         if (REdanbooruResult) {
           id = Number(postsItems[i].getAttribute('data-id'))
+        }
+        if (REgelbooruResult) {
+          id = Number(postsItems[i].querySelector('a').getAttribute('id').replace('p', ''))
         }
         const imgInfo = await this.fetchDetailPage(id)
         imgs.push({
@@ -721,9 +878,35 @@
         pageUrl = `${locationUrl}/post/show/${id}`
       }
       if(REdanbooruResult) {
-        pageUrl = `${pageUrl}/posts/${id}`
+        pageUrl = `${locationUrl}/posts/${id}`
+      }
+      if(REgelbooruResult) {
+        pageUrl = `${locationUrl}/index.php?page=post&s=view&id=${id}`
       }
       return pageUrl
+    }
+
+    /**
+     * @param   {string}    showCode  '0' | '1'
+     * */
+    handleToggleToolTip(showCode) {
+      let preViewEl = null, infoEl = null;
+      if (REyandeResult || REkonachanResult) {
+        preViewEl = $('#index-hover-overlay')
+        infoEl = $('#index-hover-info')
+      }
+      if (REdanbooruResult) {
+        preViewEl = $('#post-tooltips')
+      }
+      if (showCode === '0') {
+        preViewEl && preViewEl.classList.remove('hide')
+        infoEl && infoEl.classList.remove('hide')
+      } else if (showCode === '1') {
+        preViewEl && preViewEl.classList.add('hide')
+        infoEl && infoEl.classList.add('hide')
+      }
+      $('#showToolTipBtn span').innerText = showCode === '0' ? '[OFF]' : '[ON]'
+      localStorage.setItem('h-show-tooltip', showCode)
     }
 
     /**
@@ -739,6 +922,9 @@
         if (REdanbooruResult) {
           id = Number(postsItems[i].getAttribute('data-id'))
         }
+        if (REgelbooruResult) {
+          id = Number(postsItems[i].querySelector('a').getAttribute('id').replace('p', ''))
+        }
         this.fetchFavorite(id, isLike)
       }
     }
@@ -748,12 +934,12 @@
      * @param   {boolean}     isLike
      * */
     fetchFavorite(id, isLike) {
-      const csrfToken = $("meta[name=csrf-token]").content
       let url = ``
       let data = {}
 
       if (REyandeResult || REkonachanResult) {
         url = `${ locationUrl }/post/vote.json`
+        const csrfToken = $("meta[name=csrf-token]").content
         data = {
           "headers": {
             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -767,7 +953,8 @@
       }
 
       if (REdanbooruResult) {
-        url = isLike ? `${ locationUrl }/favorites?post_id=${ id }` : `${ locationUrl }/favorites/4371748`
+        url = isLike ? `${ locationUrl }/favorites?post_id=${ id }` : `${ locationUrl }/favorites/${id}`
+        const csrfToken = $("meta[name=csrf-token]").content
         data = {
           "headers": {
             "accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
@@ -776,6 +963,20 @@
           },
           "body": null,
           "method": isLike ? "POST" : "DELETE",
+          "mode": "cors",
+          "credentials": "include"
+        }
+      }
+
+      if (REgelbooruResult) {
+        url = isLike ? `${ locationUrl }/public/addfav.php?id=${id}` : `${ locationUrl }/index.php?page=favorites&s=delete&id=${id}`
+        data = {
+          "headers": {
+            "accept": "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01",
+            "x-requested-with": "XMLHttpRequest"
+          },
+          "body": null,
+          "method": "GET",
           "mode": "cors",
           "credentials": "include"
         }
@@ -907,18 +1108,38 @@
             reject(e)
           })
         }
+
+        if(REgelbooruResult) {
+          promiseFetch(link)
+            .then(res => res.text())
+            .then(res => {
+              const bodyText = res
+              const dom = domParser(bodyText)
+              const sampleSrc = dom.querySelector('#image').src
+              const originalEl = dom.querySelector("a[rel='noopener']")
+              const originalSrc = originalEl ? originalEl.href : sampleSrc
+              imgInfo = {
+                sample: sampleSrc,
+                original: originalSrc,
+              }
+              resolve(imgInfo)
+            }).catch(e => {
+            console.log(e)
+            reject(e)
+          })
+        }
       })
     }
 
-    handleClickImg(e, parentId) {
+    handleClickImg(e) {
       let el = e.target
       let hasEl = false
-      while (el !== document && el.id !== parentId) {
+      while (el !== document) {
         if ((REyandeResult || REkonachanResult) && el.tagName.toLowerCase() === 'li') {
           hasEl = true
           break;
         }
-        if (REdanbooruResult && el.tagName.toLowerCase() === 'article') {
+        if ((REdanbooruResult || REgelbooruResult) && el.tagName.toLowerCase() === 'article') {
           hasEl = true
           break;
         }
@@ -935,6 +1156,9 @@
         if(REdanbooruResult) {
           link = el.querySelector('a.post-preview-link').href
         }
+        if(REgelbooruResult) {
+          link = el.querySelector('a').href
+        }
         GM_openInTab(link, true)
         return;
       }
@@ -947,6 +1171,9 @@
         if(REdanbooruResult) {
           link = el.querySelector('a.post-preview-link').href
         }
+        if(REgelbooruResult) {
+          link = el.querySelector('a').href
+        }
         GM_openInTab(link, false)
         return;
       }
@@ -955,6 +1182,35 @@
       cbEl.checked = !cbEl.checked
       cbEl.checked ? el.classList.add('imgItemChecked') : el.classList.remove('imgItemChecked')
       this.updateBatchCount()
+    }
+
+    /**
+     * @param   {MouseEvent}     e
+     * @param   {string}         mouseEventName  mouseover | mouseout
+     * **/
+    async setTransition(e, mouseEventName) {
+      let el = e.target
+      let hasEl = false
+      while (el !== document) {
+        if ((REyandeResult || REkonachanResult) && el.tagName.toLowerCase() === 'li') {
+          hasEl = true
+          break;
+        }
+        if ((REdanbooruResult || REgelbooruResult) && el.tagName.toLowerCase() === 'article') {
+          hasEl = true
+          break;
+        }
+        el = el.parentNode
+      }
+      if(!hasEl) return;
+
+      if(mouseEventName === 'mouseout') {
+        el.classList.remove('imgTransform')
+        this.hoverEl = null
+      }
+      if(mouseEventName === 'mouseover') {
+        this.hoverEl = el
+      }
     }
 
     updateBatchCount() {

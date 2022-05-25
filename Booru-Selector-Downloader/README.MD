@@ -4,13 +4,14 @@
 ### [greasyfork install](https://greasyfork.org/zh-CN/scripts/371605-booru-selector-downloader)
 
 
-### List of supported imageboards*:
+### List of supported websites:
 
 - [yande.re](https://yande.re/)
 - [konachan.net](https://konachan.net)
 - [konachan.com](https://konachan.com/)
-- [danbooru](http://danbooru.donmai.us/)
-- [sonohara](http://sonohara.donmai.us/)
+- [danbooru](https://danbooru.donmai.us/)
+- [gelbooru](https://gelbooru.com/)
+- [sonohara](https://sonohara.donmai.us/)
 
 
 ### Hotkeys
@@ -32,3 +33,6 @@
 `Ctrl + MouseClick`: Open in the new window
 
 `Alt + MouseClick`: Open in the new window and auto focus the new tab
+
+`Shift + MouseHover`: Show preview image when hover the image, default scale size is `scale(2.5, 2.5)`
+
