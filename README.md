@@ -15,7 +15,7 @@
 
 #### [yande.re_db](https://beats0.github.io/scripter/yande.re_db/)
 - yanere背景图备份
-- 网站 [https://mynovel.life/scripter/yande.re_db/](https://mynovel.life/scripter/yande.re_db/) 或 [http://beats0.github.io/scripter/yande.re_db/](http://beats0.github.io/scripter/yande.re_db/)
+- 安装脚本 [yande.re_db](https://greasyfork.org/zh-CN/scripts/377434-yande-re-db)
 
 
 #### [xiamiAlbum](https://github.com/Beats0/scripter/tree/master/xiamiAlbum)
@@ -24,16 +24,3 @@
 
 #### [steam-picBed-log](https://github.com/Beats0/scripter/tree/master/steam-picBed-log)
  - 用Steam做图床
-
-#### ~~[mygalgame.com_spider](https://github.com/Beats0/scripter/tree/master/mygalgame.com_spider)~~
- - ~~mygalgame.com爬虫~~
-
- #### ~~[taobao_api_spider](https://github.com/Beats0/scripter/tree/master/taobao_api_spider)~~
- - ~~taobao_api_spider爬虫存储数据库~~
-
-### 工具
-#### ~~[proxy](https://github.com/Beats0/scripter/tree/master/proxy)~~
- - ~~proxy相关~~
-
-#### ~~[IntelliJ_IDEA_plugin](https://github.com/Beats0/scripter/tree/master/IntelliJ_IDEA_plugin)~~
- - ~~IntelliJ IDEA plugin and settings backup~~
